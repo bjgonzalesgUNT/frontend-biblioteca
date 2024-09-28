@@ -14,7 +14,7 @@ interface Props {
 
 export const NavbarWrapper = ({ children }: Props) => {
   return (
-    <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+    <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
       <Navbar
         isBordered
         className="w-full"

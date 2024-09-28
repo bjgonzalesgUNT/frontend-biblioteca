@@ -45,17 +45,17 @@ export const RenderCell = ({ user, columnKey }: Props) => {
             cellValue === "active"
               ? "success"
               : cellValue === "paused"
-              ? "danger"
-              : "warning"
+                ? "danger"
+                : "warning"
           }
         >
-          <span className="capitalize text-xs">{cellValue}</span>
+          <span className="text-xs capitalize">{cellValue}</span>
         </Chip>
       );
 
     case "actions":
       return (
-        <div className="flex items-center gap-4 ">
+        <div className="flex items-center gap-4">
           <div>
             <Tooltip content="Details">
               <button onClick={() => console.log("View user", user.id)}>

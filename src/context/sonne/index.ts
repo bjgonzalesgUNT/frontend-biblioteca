@@ -1,1 +1,1 @@
-export * from './SonneProvider';
+export * from "./SonneProvider";

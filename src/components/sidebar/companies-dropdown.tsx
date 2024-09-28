@@ -33,7 +33,7 @@ export const CompaniesDropdown = () => {
         <div className="flex items-center gap-2">
           {company.logo}
           <div className="flex flex-col gap-4">
-            <h3 className="text-xl font-medium m-0 text-default-900 -mb-4 whitespace-nowrap">
+            <h3 className="m-0 -mb-4 whitespace-nowrap text-xl font-medium text-default-900">
               {company.name}
             </h3>
             <span className="text-xs font-medium text-default-500">

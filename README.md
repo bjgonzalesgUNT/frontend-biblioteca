@@ -2,7 +2,6 @@
 
 You can deploy here directly to vercel [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/Siumauricio/nextui-dashboard-template)
 
-
 V1 Version Stitches https://v1-nextui-dashboard-template.vercel.app/
 V1 Code: https://github.com/Siumauricio/nextui-dashboard-template/tree/v1
 
@@ -12,15 +11,15 @@ This is a template for NextJS and NextUI.
 [NextUI](https://nextui.org/)
 
 You can see the demo here: https://nextui-dashboard-template.vercel.app/
-For improve this template, you can create a pull request or open an issue here [Issues](https://github.com/Siumauricio/nextui-dashboard-template/issues) or [Pull Request](
-    https://github.com/Siumauricio/nextui-dashboard-template/pulls)
+For improve this template, you can create a pull request or open an issue here [Issues](https://github.com/Siumauricio/nextui-dashboard-template/issues) or [Pull Request](https://github.com/Siumauricio/nextui-dashboard-template/pulls)
 
 ### Dark Mode
+
 ![Dashboard Dark Mode](./public/dark.png)
 
 ### Light Mode
-![Dashboard Light Mode](./public/light.png)
 
+![Dashboard Light Mode](./public/light.png)
 
 - Dark Mode Support
 - Full Responsive
@@ -55,14 +54,11 @@ For improve this template, you can create a pull request or open an issue here [
 
 Install dependencies
 
-
 ```bash
 npm install
 ```
 
 Start the server
-
-
 
 ```bash
 npm run dev

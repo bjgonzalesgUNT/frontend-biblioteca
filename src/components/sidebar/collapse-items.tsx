@@ -14,7 +14,7 @@ export const CollapseItems = ({ icon, items, title }: Props) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex gap-4 h-full items-center cursor-pointer">
+    <div className="flex h-full cursor-pointer items-center gap-4">
       <Accordion className="px-0">
         <AccordionItem
           indicator={<ChevronDownIcon />}
@@ -38,7 +38,7 @@ export const CollapseItems = ({ icon, items, title }: Props) => {
             {items.map((item, index) => (
               <span
                 key={index}
-                className="w-full flex  text-default-500 hover:text-default-900 transition-colors"
+                className="flex w-full text-default-500 transition-colors hover:text-default-900"
               >
                 {item}
               </span>

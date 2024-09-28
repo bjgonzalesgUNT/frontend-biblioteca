@@ -8,10 +8,10 @@ export const AcmeIcon = () => {
       viewBox="0 0 56 56"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-11 h-12"
+      className="h-12 w-11"
     >
       <rect
-        className="stroke-divider fill-background"
+        className="fill-background stroke-divider"
         x="0.5"
         y="0.5"
         width="55"

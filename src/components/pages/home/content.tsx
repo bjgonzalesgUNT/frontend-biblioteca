@@ -14,17 +14,17 @@ const Chart = dynamic(
   () => import("../../charts/steam").then((mod) => mod.Steam),
   {
     ssr: false,
-  }
+  },
 );
 
 export const Content = () => (
   <div className="h-full lg:px-6">
-    <div className="flex justify-center gap-4 xl:gap-6 pt-3 px-4 lg:px-0  flex-wrap xl:flex-nowrap sm:pt-10 max-w-[90rem] mx-auto w-full">
-      <div className="mt-6 gap-6 flex flex-col w-full">
+    <div className="mx-auto flex w-full max-w-[90rem] flex-wrap justify-center gap-4 px-4 pt-3 sm:pt-10 lg:px-0 xl:flex-nowrap xl:gap-6">
+      <div className="mt-6 flex w-full flex-col gap-6">
         {/* Card Section Top */}
         <div className="flex flex-col gap-2">
           <h3 className="text-xl font-semibold">Available Balance</h3>
-          <div className="grid md:grid-cols-2 grid-cols-1 2xl:grid-cols-3 gap-5  justify-center w-full">
+          <div className="grid w-full grid-cols-1 justify-center gap-5 md:grid-cols-2 2xl:grid-cols-3">
             <CardBalance1 />
             <CardBalance2 />
             <CardBalance3 />
@@ -32,18 +32,18 @@ export const Content = () => (
         </div>
 
         {/* Chart */}
-        <div className="h-full flex flex-col gap-2">
+        <div className="flex h-full flex-col gap-2">
           <h3 className="text-xl font-semibold">Statistics</h3>
-          <div className="w-full bg-default-50 shadow-lg rounded-2xl p-6 ">
+          <div className="w-full rounded-2xl bg-default-50 p-6 shadow-lg">
             <Chart />
           </div>
         </div>
       </div>
 
       {/* Left Section */}
-      <div className="mt-4 gap-2 flex flex-col xl:max-w-md w-full">
+      <div className="mt-4 flex w-full flex-col gap-2 xl:max-w-md">
         <h3 className="text-xl font-semibold">Section</h3>
-        <div className="flex flex-col justify-center gap-4 flex-wrap md:flex-nowrap md:flex-col">
+        <div className="flex flex-col flex-wrap justify-center gap-4 md:flex-col md:flex-nowrap">
           <CardAgents />
           <CardTransactions />
         </div>
@@ -51,8 +51,8 @@ export const Content = () => (
     </div>
 
     {/* Table Latest Users */}
-    <div className="flex flex-col justify-center w-full py-5 px-4 lg:px-0  max-w-[90rem] mx-auto gap-3">
-      <div className="flex  flex-wrap justify-between">
+    <div className="mx-auto flex w-full max-w-[90rem] flex-col justify-center gap-3 px-4 py-5 lg:px-0">
+      <div className="flex flex-wrap justify-between">
         <h3 className="text-center text-xl font-semibold">Latest Users</h3>
         <Link
           href="/accounts"
