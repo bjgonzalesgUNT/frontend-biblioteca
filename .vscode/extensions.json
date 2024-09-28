@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "shinruchan.vscode-barreler",
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "EQuimper.react-native-react-redux",
+    "burkeholland.simple-react-snippets",
+  ]
+}
