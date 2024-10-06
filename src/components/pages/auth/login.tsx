@@ -33,54 +33,57 @@ export const Login = () => {
   );
 
   return (
-    <>
-      <div className="mb-6 text-center text-[25px] font-bold">Login</div>
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="bg-slate-200 p-11 rounded-lg shadow-lg w-full max-w-sm">
+        <div className="mb-6 text-center text-[25px] font-bold text-black">INICIO DE SESIÓN</div>
 
-      <Formik
-        initialValues={initialValues}
-        validationSchema={LoginSchema}
-        onSubmit={handleLogin}
-      >
-        {({ values, errors, touched, handleChange, handleSubmit }) => (
-          <>
-            <div className="mb-4 flex w-1/2 flex-col gap-4">
-              <Input
-                variant="bordered"
-                label="Email"
-                type="email"
-                value={values.email}
-                isInvalid={!!errors.email && !!touched.email}
-                errorMessage={errors.email}
-                onChange={handleChange("email")}
-              />
-              <Input
-                variant="bordered"
-                label="Password"
-                type="password"
-                value={values.password}
-                isInvalid={!!errors.password && !!touched.password}
-                errorMessage={errors.password}
-                onChange={handleChange("password")}
-              />
-            </div>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={LoginSchema}
+          onSubmit={handleLogin}
+        >
+          {({ values, errors, touched, handleChange, handleSubmit }) => (
+            <>
+              <div className="mb-4 flex flex-col gap-4 items-center text-gray-600">
+                <Input
+                  variant="bordered"
+                  label={<span className="text-gray-600">Email</span>}
+                  type="email"
+                  value={values.email}
+                  isInvalid={!!errors.email && !!touched.email}
+                  errorMessage={errors.email}
+                  onChange={handleChange("email")}
+                />
+                <Input
+                  variant="bordered"
+                  label={<span className="text-gray-600">Contraseña</span>}
+                  type="password"
+                  value={values.password}
+                  isInvalid={!!errors.password && !!touched.password}
+                  errorMessage={errors.password}
+                  onChange={handleChange("password")}
+                />
+              </div>
 
-            <Button
-              onPress={() => handleSubmit()}
-              variant="flat"
-              color="primary"
-            >
-              Login
-            </Button>
-          </>
-        )}
-      </Formik>
+              <Button
+                onPress={() => handleSubmit()}
+                variant="flat"
+                color="default"
+                className="w-full"
+              >
+                Iniciar Sesión
+              </Button>
+            </>
+          )}
+        </Formik>
 
-      <div className="mt-4 text-sm font-light text-slate-400">
-        Don&apos;t have an account ?{" "}
-        <Link href="/register" className="font-bold">
-          Register here
-        </Link>
+        <div className="mt-4 text-sm font-light text-center text-gray-500">
+          Aun no tienes una cuenta ?{" "}
+          <Link href="/register" className="font-bold text-black">
+            Registrate ahora
+          </Link>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
