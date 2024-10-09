@@ -10,7 +10,7 @@ export const AuthLayoutWrapper = ({ children }: Props) => {
       <Image
         alt="background"
         src="https://hips.hearstapps.com/hmg-prod/images/old-books-in-a-library-big-file-royalty-free-image-1666591048.jpg"
-        className="absolute z-0 h-full w-full object-cover"
+        className="absolute z-0 h-full w-full rounded-none object-cover blur-sm"
         removeWrapper
       />
       <div className="z-10 flex h-full flex-1 flex-col items-center justify-center p-2">
