@@ -1,76 +1,73 @@
-import { User, Tooltip, Chip } from "@nextui-org/react";
-import React from "react";
+import { User, Tooltip, Chip, useDisclosure, Switch } from "@nextui-org/react";
+import { useRef, useState } from "react";
 import { DeleteIcon } from "../icons/table/delete-icon";
 import { EditIcon } from "../icons/table/edit-icon";
 import { EyeIcon } from "../icons/table/eye-icon";
-import { users } from "./data";
+import { IUserModel } from "@/models";
+import { PopUpDetailsUser, PopUpEditUser } from "../accounts/pop-up-user";
 
 interface Props {
-  user: (typeof users)[number];
-  columnKey: string | React.Key;
+  user: IUserModel;
+  columnKey: string;
 }
 
 export const RenderCell = ({ user, columnKey }: Props) => {
   // @ts-ignore
-  const cellValue = user[columnKey];
+  const { isOpen: isDetailsOpen, onOpen: onOpenDetails, onOpenChange: onOpenChangeDetails } = useDisclosure();
+  const { isOpen: isEditOpen, onOpen: onOpenEdit, onOpenChange: onOpenChangeEdit } = useDisclosure();
+
+  const cellValue = user[columnKey as keyof IUserModel];
+  
+
   switch (columnKey) {
     case "name":
       return (
-        <User
-          avatarProps={{
-            src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
-          }}
-          name={cellValue}
-        >
-          {user.email}
-        </User>
+        <User avatarProps={{src: user['avatar']}} name={cellValue} />
       );
-    case "role":
+    case "email":
       return (
         <div>
-          <div>
-            <span>{cellValue}</span>
-          </div>
-          <div>
-            <span>{user.team}</span>
-          </div>
+          <span>{cellValue}</span>
         </div>
       );
     case "status":
+      const [isSwitchOn, setIsSwitchOn] = useState(user.status === "habilitado");
+
+      const switchRef = useRef(user.status === "habilitado");
+      console.log(switchRef);
+
+      const handleSwitchToggle = () => {
+        setIsSwitchOn(!isSwitchOn);
+        switchRef.current = !switchRef.current;
+        console.log(`Usuario ${user.name} ha cambiado a estado: ${switchRef.current ? 'habilitado' : 'deshabilitado'}`)
+      };
+
       return (
-        <Chip
-          size="sm"
-          variant="flat"
-          color={
-            cellValue === "active"
-              ? "success"
-              : cellValue === "paused"
-                ? "danger"
-                : "warning"
-          }
-        >
-          <span className="text-xs capitalize">{cellValue}</span>
-        </Chip>
-      );
+        <Switch 
+          isSelected={isSwitchOn}
+          onValueChange={handleSwitchToggle}
+        />
+      )
 
     case "actions":
       return (
+        <>
         <div className="flex items-center gap-4">
           <div>
-            <Tooltip content="Details">
-              <button onClick={() => console.log("View user", user.id)}>
+            <Tooltip content="Detalles">
+              <button onClick={onOpenDetails} className="bg-zinc-700 p-2 rounded-xl">
                 <EyeIcon size={20} fill="#979797" />
               </button>
             </Tooltip>
           </div>
           <div>
-            <Tooltip content="Edit user" color="secondary">
-              <button onClick={() => console.log("Edit user", user.id)}>
+            <Tooltip content="Editar usuario" color="secondary" >
+              <button onClick={onOpenEdit} className="bg-zinc-700 p-2 rounded-xl">
                 <EditIcon size={20} fill="#979797" />
               </button>
             </Tooltip>
           </div>
-          <div>
+          {/* <div>
             <Tooltip
               content="Delete user"
               color="danger"
@@ -80,8 +77,12 @@ export const RenderCell = ({ user, columnKey }: Props) => {
                 <DeleteIcon size={20} fill="#FF0080" />
               </button>
             </Tooltip>
-          </div>
+          </div> */}
         </div>
+
+        <PopUpDetailsUser user={user} isOpen={isDetailsOpen} onOpenChange={onOpenChangeDetails} />
+        <PopUpEditUser user={user} isOpen={isEditOpen} onOpenChange={onOpenChangeEdit} />
+        </>
       );
     default:
       return cellValue;

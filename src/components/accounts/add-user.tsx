@@ -7,8 +7,11 @@ import {
   ModalFooter,
   ModalHeader,
   useDisclosure,
+  Select,
+  SelectItem
 } from "@nextui-org/react";
 import React from "react";
+import { PlusIcon } from "../icons/accounts/plus-icon";
 
 export const AddUser = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -16,8 +19,8 @@ export const AddUser = () => {
   return (
     <div>
       <>
-        <Button onPress={onOpen} color="primary">
-          Add User
+        <Button onPress={onOpen} color="primary" startContent={<PlusIcon/>}>
+          Crear
         </Button>
         <Modal
           isOpen={isOpen}
@@ -28,27 +31,33 @@ export const AddUser = () => {
             {(onClose) => (
               <>
                 <ModalHeader className="flex flex-col gap-1">
-                  Add User
+                  Agregar Usuario
                 </ModalHeader>
                 <ModalBody>
-                  <Input label="Email" variant="bordered" />
-                  <Input label="First Name" variant="bordered" />
-                  <Input label="Last Name" variant="bordered" />
-                  <Input label="Phone Number" variant="bordered" />
-
-                  <Input label="Password" type="password" variant="bordered" />
-                  <Input
-                    label="Confirm Password"
+                  <Input isRequired label="Nombre" variant="bordered" />
+                  <Select isRequired label="Rol" variant="bordered">
+                    <SelectItem key="administrador" value="administrador"> Administrador </SelectItem>
+                    <SelectItem key="trabajador" value="trabajador"> Trabajador  </SelectItem>
+                  </Select>
+                  <Select isRequired label="Estado" variant="bordered">
+                    <SelectItem key="habilitado" value="habilitado"> Habilitado </SelectItem>
+                    <SelectItem key="deshabilitado" value="deshabilitado"> Deshabilitado </SelectItem>
+                  </Select>
+                  <Input isRequired label="Correo" variant="bordered" />
+                  <Input isRequired label="Contraseña" type="password" variant="bordered" />
+                  <Input 
+                    isRequired
+                    label="Confirmar Contraseña"
                     type="password"
                     variant="bordered"
                   />
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="danger" variant="flat" onClick={onClose}>
-                    Close
-                  </Button>
                   <Button color="primary" onPress={onClose}>
-                    Add User
+                    Agregar
+                  </Button>
+                  <Button color="danger" variant="flat" onClick={onClose}>
+                    Cerrar
                   </Button>
                 </ModalFooter>
               </>

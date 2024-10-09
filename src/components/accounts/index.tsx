@@ -1,7 +1,7 @@
 "use client";
 import { Button, Input } from "@nextui-org/react";
 import Link from "next/link";
-import React from "react";
+import { useCallback, useState } from "react";
 import { DotsIcon } from "@/components/icons/accounts/dots-icon";
 import { ExportIcon } from "@/components/icons/accounts/export-icon";
 import { InfoIcon } from "@/components/icons/accounts/info-icon";
@@ -11,30 +11,43 @@ import { UsersIcon } from "@/components/icons/breadcrumb/users-icon";
 import { SettingsIcon } from "@/components/icons/sidebar/settings-icon";
 import { TableWrapper } from "@/components/table/table";
 import { AddUser } from "./add-user";
+import { useUsers } from "../hooks/useUsers";
+import debounce from "debounce";
 
 export const Accounts = () => {
+
+  const [search, setSearch] = useState('')
+  const {users, getUsers, loading, error} = useUsers();
+
+  const debounceUsers = useCallback(debounce(search => getUsers({search}), 300), [getUsers]);
+
+  const handleSearchChange = (newSearch : string) => {
+    setSearch(newSearch);
+    debounceUsers(newSearch);
+  };
+
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
       <ul className="flex">
         <li className="flex gap-2">
           <HouseIcon />
           <Link href={"/"}>
-            <span>Home</span>
+            <span>Inicio</span>
           </Link>
           <span> / </span>{" "}
         </li>
 
         <li className="flex gap-2">
           <UsersIcon />
-          <span>Users</span>
+          <span>Usuarios</span>
           <span> / </span>{" "}
         </li>
         <li className="flex gap-2">
-          <span>List</span>
+          <span>Lista</span>
         </li>
       </ul>
 
-      <h3 className="text-xl font-semibold">All Accounts</h3>
+      <h3 className="text-xl font-semibold">Lista de Usuarios</h3>
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-3 md:flex-nowrap">
           <Input
@@ -42,22 +55,25 @@ export const Accounts = () => {
               input: "w-full",
               mainWrapper: "w-full",
             }}
-            placeholder="Search users"
+            placeholder="Buscar usuarios"
+            value={search}
+            onValueChange={handleSearchChange}
           />
-          <SettingsIcon />
+          {/* <SettingsIcon />
           <TrashIcon />
           <InfoIcon />
-          <DotsIcon />
+          <DotsIcon /> */}
         </div>
         <div className="flex flex-row flex-wrap gap-3.5">
           <AddUser />
-          <Button color="primary" startContent={<ExportIcon />}>
-            Export to CSV
+          <Button color="secondary">
+            Exportar a CSV
           </Button>
         </div>
       </div>
       <div className="mx-auto w-full max-w-[95rem]">
-        <TableWrapper />
+        {loading && ( <span>Cargando...</span> )}
+        {!loading && <TableWrapper users={users} />}
       </div>
     </div>
   );
