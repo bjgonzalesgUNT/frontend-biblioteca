@@ -48,7 +48,7 @@ export const PopUpDetailsUser = ({ user, isOpen, onOpenChange }: Props) => {
                 <Input
                   label="Estado"
                   variant="bordered"
-                  value={user.status.charAt(0).toUpperCase() + user.status.slice(1)}
+                  // value={user.status.charAt(0).toUpperCase() + user.status.slice(1)}
                   readOnly
                 />
                 <Input
@@ -111,11 +111,19 @@ export const PopUpEditUser = ({ user, isOpen, onOpenChange }: Props) => {
                 <Select
                   label="Estado"
                   variant="bordered"
-                  selectedKeys={[editableUser.status]}
-                  onSelectionChange={(keys) => handleChange("status", keys.currentKey as string)}
+                  // selectedKeys={[editableUser.status]}
+                  onSelectionChange={(keys) =>
+                    handleChange("status", keys.currentKey as string)
+                  }
                 >
-                  <SelectItem key="habilitado" value="habilitado"> Habilitado </SelectItem>
-                  <SelectItem key="deshabilitado" value="deshabilitado"> Deshabilitado </SelectItem>
+                  <SelectItem key="habilitado" value="habilitado">
+                    {" "}
+                    Habilitado{" "}
+                  </SelectItem>
+                  <SelectItem key="deshabilitado" value="deshabilitado">
+                    {" "}
+                    Deshabilitado{" "}
+                  </SelectItem>
                 </Select>
                 {/* <Input label="Estado" variant="bordered" name="status" value={editableUser.status} onChange={handleInputChange} /> */}
                 <Input

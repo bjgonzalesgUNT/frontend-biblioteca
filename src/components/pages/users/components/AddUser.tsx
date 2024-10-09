@@ -1,3 +1,4 @@
+import { PlusIcon } from "@/components/icons/accounts/plus-icon";
 import {
   Button,
   Input,
@@ -6,12 +7,10 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  useDisclosure,
   Select,
-  SelectItem
+  SelectItem,
+  useDisclosure,
 } from "@nextui-org/react";
-import React from "react";
-import { PlusIcon } from "../icons/accounts/plus-icon";
 
 export const AddUser = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -19,7 +18,7 @@ export const AddUser = () => {
   return (
     <div>
       <>
-        <Button onPress={onOpen} color="primary" startContent={<PlusIcon/>}>
+        <Button onPress={onOpen} color="primary" startContent={<PlusIcon />}>
           Crear
         </Button>
         <Modal
@@ -36,16 +35,33 @@ export const AddUser = () => {
                 <ModalBody>
                   <Input isRequired label="Nombre" variant="bordered" />
                   <Select isRequired label="Rol" variant="bordered">
-                    <SelectItem key="administrador" value="administrador"> Administrador </SelectItem>
-                    <SelectItem key="trabajador" value="trabajador"> Trabajador  </SelectItem>
+                    <SelectItem key="administrador" value="administrador">
+                      {" "}
+                      Administrador{" "}
+                    </SelectItem>
+                    <SelectItem key="trabajador" value="trabajador">
+                      {" "}
+                      Trabajador{" "}
+                    </SelectItem>
                   </Select>
                   <Select isRequired label="Estado" variant="bordered">
-                    <SelectItem key="habilitado" value="habilitado"> Habilitado </SelectItem>
-                    <SelectItem key="deshabilitado" value="deshabilitado"> Deshabilitado </SelectItem>
+                    <SelectItem key="habilitado" value="habilitado">
+                      {" "}
+                      Habilitado{" "}
+                    </SelectItem>
+                    <SelectItem key="deshabilitado" value="deshabilitado">
+                      {" "}
+                      Deshabilitado{" "}
+                    </SelectItem>
                   </Select>
                   <Input isRequired label="Correo" variant="bordered" />
-                  <Input isRequired label="Contraseña" type="password" variant="bordered" />
-                  <Input 
+                  <Input
+                    isRequired
+                    label="Contraseña"
+                    type="password"
+                    variant="bordered"
+                  />
+                  <Input
                     isRequired
                     label="Confirmar Contraseña"
                     type="password"
