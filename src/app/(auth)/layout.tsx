@@ -1,4 +1,4 @@
-import { AuthLayoutWrapper } from "@/components/pages/auth/authLayout";
+import { AuthLayoutWrapper } from "@/components/pages/auth";
 import "@/styles/globals.css";
 
 export default function RootLayout({

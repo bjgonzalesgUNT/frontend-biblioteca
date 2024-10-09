@@ -1,86 +1,98 @@
 "use client";
 
+import { GoogleIcon } from "@/components/icons";
+import { LoginFormType } from "@/helpers/form-types";
 import { LoginSchema } from "@/helpers/schemas";
-import { LoginFormType } from "@/helpers/types";
-import { Button, Input } from "@nextui-org/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Input,
+} from "@nextui-org/react";
 import { Formik } from "formik";
 import { signIn } from "next-auth/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { Fragment, useCallback } from "react";
 import { toast } from "sonner";
 
 export const Login = () => {
   const router = useRouter();
 
   const initialValues: LoginFormType = {
-    email: "admin@acme.com",
+    username: "admin@acme.com",
     password: "admin",
   };
 
   const handleLogin = useCallback(
     async (values: LoginFormType) => {
       await signIn("credentials", {
-        username: values.email,
+        username: values.username,
         password: values.password,
         redirect: false,
       });
 
-      toast.success("Login successful");
+      toast.success("Inicio de sesión correcto");
       router.replace("/");
     },
     [router],
   );
 
   return (
-    <>
-      <div className="mb-6 text-center text-[25px] font-bold">Login</div>
-
+    <Card shadow="md">
+      <CardHeader>
+        <div className="w-full text-center text-[25px] font-bold">
+          Iniciar Sesion
+        </div>
+      </CardHeader>
       <Formik
         initialValues={initialValues}
         validationSchema={LoginSchema}
         onSubmit={handleLogin}
       >
         {({ values, errors, touched, handleChange, handleSubmit }) => (
-          <>
-            <div className="mb-4 flex w-1/2 flex-col gap-4">
-              <Input
-                variant="bordered"
-                label="Email"
-                type="email"
-                value={values.email}
-                isInvalid={!!errors.email && !!touched.email}
-                errorMessage={errors.email}
-                onChange={handleChange("email")}
-              />
-              <Input
-                variant="bordered"
-                label="Password"
-                type="password"
-                value={values.password}
-                isInvalid={!!errors.password && !!touched.password}
-                errorMessage={errors.password}
-                onChange={handleChange("password")}
-              />
-            </div>
-
-            <Button
-              onPress={() => handleSubmit()}
-              variant="flat"
-              color="primary"
-            >
-              Login
-            </Button>
-          </>
+          <Fragment>
+            <CardBody>
+              <div className="flex w-full flex-col gap-4">
+                <Input
+                  variant="bordered"
+                  label="Username"
+                  isRequired
+                  value={values.username}
+                  isInvalid={!!errors.username && !!touched.username}
+                  errorMessage={errors.username}
+                  onChange={handleChange("username")}
+                />
+                <Input
+                  variant="bordered"
+                  label="Contraseña"
+                  isRequired
+                  type="password"
+                  value={values.password}
+                  isInvalid={!!errors.password && !!touched.password}
+                  errorMessage={errors.password}
+                  onChange={handleChange("password")}
+                />
+              </div>
+            </CardBody>
+            <CardFooter>
+              <div className="flex w-full flex-col gap-2">
+                <Button color="primary" onPress={() => handleSubmit()}>
+                  Iniciar Sesión
+                </Button>
+                <Button
+                  variant="bordered"
+                  className="font-semibold"
+                  startContent={<GoogleIcon />}
+                >
+                  Entrar con google
+                </Button>
+              </div>
+            </CardFooter>
+          </Fragment>
         )}
       </Formik>
-
-      <div className="mt-4 text-sm font-light text-slate-400">
-        Don&apos;t have an account ?{" "}
-        <Link href="/register" className="font-bold">
-          Register here
-        </Link>
-      </div>
-    </>
+    </Card>
   );
 };
