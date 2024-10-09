@@ -20,7 +20,7 @@ const authOptions: AuthOptions = {
             id: 1,
             username: "test",
             role: "ADMINISTRADOR",
-            pages: ["/"],
+            pages: ["/", "/users"],
           },
         };
 
