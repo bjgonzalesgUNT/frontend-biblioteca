@@ -8,7 +8,7 @@ export class UsersService {
     limit: number,
   ): Promise<PaginationModel<UserModel>> {
     return axiosInstance
-      .get("/users/find-all-paginate")
+      .get("/users/find-all-paginate", { params: { page, limit } })
       .then((response) => response.data)
       .catch(throwHttpErrorHandler);
   }

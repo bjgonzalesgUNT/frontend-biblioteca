@@ -2,7 +2,7 @@
 
 import { GoogleIcon } from "@/components/icons";
 import { LoginFormType } from "@/helpers/form-types";
-import { LoginSchema } from "@/helpers/schemas";
+import { loginSchema } from "@/helpers/schemas";
 import { singIn } from "@/lib";
 import {
   Button,
@@ -10,7 +10,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Input,
+  Input
 } from "@nextui-org/react";
 import { Formik } from "formik";
 import { useRouter } from "next/navigation";
@@ -56,7 +56,7 @@ export const Login = () => {
       </CardHeader>
       <Formik
         initialValues={initialValues}
-        validationSchema={LoginSchema}
+        validationSchema={loginSchema}
         onSubmit={handleLogin}
       >
         {({ values, errors, touched, handleChange, handleSubmit }) => (

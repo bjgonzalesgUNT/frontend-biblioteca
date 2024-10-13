@@ -9,7 +9,6 @@ import { AddUser } from "./components/AddUser";
 
 export const UsersWrapper = () => {
   const [search, setSearch] = useState("");
-  // const { users, getUsers, loading, error } = useUsers();
 
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">

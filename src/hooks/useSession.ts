@@ -7,9 +7,11 @@ export const useSession = () => {
   const [token, setToken] = useState<string | null>(null);
 
   const sessionHandler = useCallback(async () => {
-    const { user, token } = await getSession();
-    setUser(user);
-    setToken(token);
+    const session = await getSession();
+    if (session) {
+      setUser(session.user);
+      setToken(session.token);
+    }
   }, []);
 
   useEffect(() => {

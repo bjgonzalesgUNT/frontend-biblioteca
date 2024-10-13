@@ -16,6 +16,7 @@ import {
 } from "@nextui-org/react";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 import { columns } from "./data";
 import { RenderCell } from "./RenderCell";
 
@@ -30,7 +31,7 @@ export const UsersTableWrapper = () => {
 
   const users = useSelector((store: IUsersStore) => store.users);
 
-  const handlePaginateUsers = useCallback(async () => {
+  const handleGetUsers = useCallback(async () => {
     setIsLoading(true);
     try {
       const { rows, total, totalPages, currentPage } =
@@ -39,21 +40,22 @@ export const UsersTableWrapper = () => {
       setPage(currentPage);
       setTotal(total);
       setTotalPages(totalPages);
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }
-  }, [dispatch, page, limit]);
+  }, [page, limit, dispatch]);
 
   useEffect(() => {
-    handlePaginateUsers();
-  }, [handlePaginateUsers]);
+    handleGetUsers();
+  }, [handleGetUsers]);
 
   return (
     <Table
       aria-label="Example table with custom cells"
       bottomContent={
-        users.length && (
+        users.length > 0 ? (
           <div className="flex w-full items-center justify-between">
             <Pagination
               showControls
@@ -69,7 +71,7 @@ export const UsersTableWrapper = () => {
               }
             />
           </div>
-        )
+        ) : null
       }
     >
       <TableHeader columns={columns}>

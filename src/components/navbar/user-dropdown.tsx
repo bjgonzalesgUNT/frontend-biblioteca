@@ -1,7 +1,6 @@
 import { useSession } from "@/hooks/useSession";
 import { singOut } from "@/lib";
 import {
-  Chip,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -37,7 +36,7 @@ export const UserDropdown = () => {
           </Skeleton>
         </DropdownTrigger>
       </NavbarItem>
-      <DropdownMenu aria-label="User menu actions">
+      <DropdownMenu aria-label="Menu de acciones de usuario">
         <DropdownItem key="settings">Perfil</DropdownItem>
         <DropdownItem
           key="logout"
@@ -45,7 +44,7 @@ export const UserDropdown = () => {
           className="text-danger"
           onPress={handleLogout}
         >
-          Log Out
+          Salir
         </DropdownItem>
         <DropdownItem key="switch">
           <DarkModeSwitch />

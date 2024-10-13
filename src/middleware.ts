@@ -6,18 +6,23 @@ export async function middleware(request: NextRequest) {
 
   const userAuth = await getSession();
 
-  if (userAuth && pathname === "/login")
-    return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
-
-  if (!userAuth && pathname.includes("/dashboard"))
+  if (!userAuth && pathname.includes("/dashboard")) {
     return NextResponse.redirect(new URL("/login", request.nextUrl));
+  }
+
+  if (userAuth && pathname === "/login") {
+    if (userAuth.user.role === "admin")
+      return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+    if (userAuth.user.role === "user")
+      return NextResponse.redirect(new URL("/", request.nextUrl));
+  }
 
   if (
     userAuth &&
-    pathname === "/dashboard" &&
-    !userAuth.user.pages.includes(pathname)
+    pathname.includes("/dashboard") &&
+    userAuth.user.role === "user"
   )
-    return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+    return NextResponse.redirect(new URL("/", request.nextUrl));
 
   return NextResponse.next();
 }

@@ -1,2 +1,2 @@
-export * from './AddUser';
-export * from './table';
+export * from "./AddUser";
+export * from "./table";
