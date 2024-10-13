@@ -3,6 +3,7 @@
 import { GoogleIcon } from "@/components/icons";
 import { LoginFormType } from "@/helpers/form-types";
 import { LoginSchema } from "@/helpers/schemas";
+import { singIn } from "@/lib";
 import {
   Button,
   Card,
@@ -12,29 +13,36 @@ import {
   Input,
 } from "@nextui-org/react";
 import { Formik } from "formik";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Fragment, useCallback } from "react";
+import { Fragment, useCallback, useState } from "react";
 import { toast } from "sonner";
 
 export const Login = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const initialValues: LoginFormType = {
-    username: "admin@acme.com",
-    password: "admin",
+    username: "70452182",
+    password: "70452182",
   };
 
   const handleLogin = useCallback(
     async (values: LoginFormType) => {
-      await signIn("credentials", {
-        username: values.username,
-        password: values.password,
-        redirect: false,
-      });
+      setIsLoading(true);
+      try {
+        const { user } = await singIn(values);
 
-      toast.success("Inicio de sesión correcto");
-      router.replace("/");
+        switch (user.role) {
+          case "admin":
+            return router.replace("/dashboard");
+          case "user":
+            return router.replace("/");
+        }
+      } catch (error: any) {
+        toast.error(error.message);
+      } finally {
+        setIsLoading(false);
+      }
     },
     [router],
   );
@@ -78,7 +86,11 @@ export const Login = () => {
             </CardBody>
             <CardFooter>
               <div className="flex w-full flex-col gap-2">
-                <Button color="primary" onPress={() => handleSubmit()}>
+                <Button
+                  isLoading={isLoading}
+                  color="primary"
+                  onPress={() => handleSubmit()}
+                >
                   Iniciar Sesión
                 </Button>
                 <Button

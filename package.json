@@ -18,10 +18,12 @@
     "axios": "^1.7.7",
     "clsx": "^2.0.0",
     "debounce": "^2.1.1",
+    "dotenv": "^16.4.5",
     "formik": "^2.4.6",
     "framer-motion": "^10.16.0",
+    "jose": "^5.9.4",
+    "jsonwebtoken": "^9.0.2",
     "next": "^14.0.4",
-    "next-auth": "^4.24.8",
     "next-themes": "0.2.1",
     "react": "18.2.0",
     "react-apexcharts": "^1.4.0",
@@ -31,6 +33,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "18.7.18",
     "@types/react": "^18.3.10",
     "@types/react-dom": "18.0.6",
