@@ -7,3 +7,8 @@ export interface PersonFormType {
   telephone: string;
   address: string;
 }
+
+export interface UpdatePersonFormType {
+  telephone: string;
+  address: string;
+}

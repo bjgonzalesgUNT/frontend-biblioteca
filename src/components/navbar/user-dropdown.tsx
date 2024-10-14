@@ -37,7 +37,9 @@ export const UserDropdown = () => {
         </DropdownTrigger>
       </NavbarItem>
       <DropdownMenu aria-label="Menu de acciones de usuario">
-        <DropdownItem key="settings">Perfil</DropdownItem>
+        <DropdownItem key="profile" href="/dashboard/profile">
+          Perfil
+        </DropdownItem>
         <DropdownItem
           key="logout"
           color="danger"
