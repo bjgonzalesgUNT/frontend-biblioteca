@@ -1,22 +1,32 @@
-import { JWT } from "next-auth/jwt";
-import { NextRequestWithAuth, withAuth } from "next-auth/middleware";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { getSession } from "./lib";
 
-export default withAuth(
-  (req: NextRequestWithAuth) => {
-    const { user } = req.nextauth.token as JWT;
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
 
-    console.log(req.nextUrl.pathname);
+  const userAuth = await getSession();
 
-    if (!user.pages.includes(req.nextUrl.pathname)) {
-      return NextResponse.redirect(new URL("/", req.url));
-    }
+  if (!userAuth && pathname.includes("/dashboard")) {
+    return NextResponse.redirect(new URL("/login", request.nextUrl));
+  }
 
-    return NextResponse.next();
-  },
-  { pages: { signIn: "/login" } },
-);
+  if (userAuth && pathname === "/login") {
+    if (userAuth.user.role === "admin")
+      return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+    if (userAuth.user.role === "user")
+      return NextResponse.redirect(new URL("/", request.nextUrl));
+  }
+
+  if (
+    userAuth &&
+    pathname.includes("/dashboard") &&
+    userAuth.user.role === "user"
+  )
+    return NextResponse.redirect(new URL("/", request.nextUrl));
+
+  return NextResponse.next();
+}
 
 export const config = {
-  matcher: ["/(.*)"],
+  matcher: ["/", "/login", "/dashboard/:path*"],
 };

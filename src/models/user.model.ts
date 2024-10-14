@@ -1,5 +1,9 @@
-export interface IUserModel {
+export interface UserModel {
   id: number;
   username: string;
-  email: string;
+  role: string;
+  names: string;
+  surnames: string;
+  document: string;
+  status: boolean;
 }
