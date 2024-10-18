@@ -10,7 +10,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Input
+  Input,
 } from "@nextui-org/react";
 import { Formik } from "formik";
 import { useRouter } from "next/navigation";

@@ -1,1 +1,1 @@
-export * from './peru-icon';
+export * from "./peru-icon";

@@ -13,12 +13,12 @@
 
 1. Generar el build de produccion
 
-    ```bash
-    npm run build
-    ```
+   ```bash
+   npm run build
+   ```
 
 2. Levantar el build
 
-    ```bash
-    npm run start
-    ```  
+   ```bash
+   npm run start
+   ```

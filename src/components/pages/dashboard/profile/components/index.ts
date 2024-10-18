@@ -1,3 +1,3 @@
-export * from './ConfigOption';
-export * from './PersonalInformationOption';
-export * from './UserInformationOption';
+export * from "./ConfigOption";
+export * from "./PersonalInformationOption";
+export * from "./UserInformationOption";
