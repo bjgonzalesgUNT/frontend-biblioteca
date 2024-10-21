@@ -2,7 +2,7 @@
 
 ## PASOS
 
-1. Copiar el archivo `.env.sample` y renombrarlo a `.env.local`
+1. Copiar el archivo `.env.sample` y renombrarlo a `.env`
 2. Instalar las dependencias
 
    ```bash

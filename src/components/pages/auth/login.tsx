@@ -3,7 +3,6 @@
 import { GoogleIcon } from "@/components/icons";
 import { LoginFormType } from "@/helpers/form-types";
 import { loginSchema } from "@/helpers/schemas";
-import { singIn } from "@/lib";
 import {
   Button,
   Card,
@@ -30,7 +29,23 @@ export const Login = () => {
     async (values: LoginFormType) => {
       setIsLoading(true);
       try {
-        const { user } = await singIn(values);
+        // const { user } = await singIn(values);
+        const { user } = {
+          user: {
+            id: 1,
+            username: "70452182",
+            names: "BRANDON JOSEPH",
+            surnames: "GONZALES GUTIERREZ",
+            document: "70452182",
+            role: "admin",
+            pages: ["/dashboard", "/dashboard/users"],
+            status: true,
+          },
+          // token:
+          //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiI3MDQ1MjE4MiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyOTUxMzcwOSwiZXhwIjoxNzI5NjAwMTA5fQ.b8dEAg3LRBc_2lLDHnR4x-vWlpJZwHbGs9l7ufZm8tA",
+          // iat: 1729513709,
+          // exp: 1729517309,
+        };
 
         switch (user.role) {
           case "admin":
