@@ -1,10 +1,10 @@
 "use client";
 
 import { TABLE_BODY_EMPTY_MESSAGE } from "@/constants";
-import { setUsers } from "@/context/users";
+import { setBooks } from "@/context/books";
 import { usePagination } from "@/hooks";
-import { UserModel } from "@/models";
-import { UsersService } from "@/services";
+import { BookModel } from "@/models";
+import { BooksService } from "@/services";
 import {
   Pagination,
   Spinner,
@@ -20,7 +20,7 @@ import { useDispatch } from "react-redux";
 import { columns } from "./data";
 import { RenderCell } from "./RenderCell";
 
-export const UsersTableWrapper = () => {
+export const BooksTableWrapper = () => {
   const dispatch = useDispatch();
 
   const {
@@ -29,12 +29,14 @@ export const UsersTableWrapper = () => {
     totalPages,
     page,
     setPage,
-    data: users,
-  } = usePagination<UserModel>({ promise: UsersService.getAllPaginate });
+    data: books,
+  } = usePagination<BookModel>({
+    promise: BooksService.getAllPaginate,
+  });
 
   useEffect(() => {
-    dispatch(setUsers(users));
-  }, [users, dispatch]);
+    dispatch(setBooks(books));
+  }, [books, dispatch]);
 
   return (
     <Table
@@ -59,7 +61,7 @@ export const UsersTableWrapper = () => {
         {(column) => <TableColumn key={column.uid}>{column.name}</TableColumn>}
       </TableHeader>
       <TableBody
-        items={users}
+        items={books}
         isLoading={isLoading}
         loadingContent={<Spinner />}
         emptyContent={TABLE_BODY_EMPTY_MESSAGE}
@@ -68,7 +70,7 @@ export const UsersTableWrapper = () => {
           <TableRow>
             {(columnKey: any) => (
               <TableCell>
-                <RenderCell user={user} columnKey={columnKey} />
+                <RenderCell book={user} columnKey={columnKey} />
               </TableCell>
             )}
           </TableRow>

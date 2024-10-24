@@ -5,10 +5,9 @@ import { axiosInstance } from "@/tools";
 export class UsersService {
   static async getAllPaginate(
     page: number,
-    limit: number,
   ): Promise<PaginationModel<UserModel>> {
     return axiosInstance
-      .get("/users/find-all-paginate", { params: { page, limit } })
+      .get("/users/find-all-paginate", { params: { page } })
       .then((response) => response.data)
       .catch(throwHttpErrorHandler);
   }
