@@ -1,5 +1,5 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 
 interface Props {
   limit: number;
