@@ -1,10 +1,7 @@
 "use client";
 
 import { TABLE_BODY_EMPTY_MESSAGE } from "@/constants";
-import { setAuthors } from "@/context/authors";
-import { usePagination } from "@/hooks";
 import { AuthorModel } from "@/models";
-import { AuthorsService } from "@/services";
 import {
   Pagination,
   Spinner,
@@ -15,28 +12,20 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { columns } from "./data";
 import { RenderCell } from "./RenderCell";
 
-export const AuthorTableWrapper = () => {
-  const dispatch = useDispatch();
+interface Props {
+  isLoading: boolean;
+  total: number;
+  totalPages: number;
+  page: number;
+  setPage: (page: number) => void;
+  authors: AuthorModel[];
+}
 
-  const {
-    isLoading,
-    total,
-    totalPages,
-    page,
-    setPage,
-    data: authors,
-  } = usePagination<AuthorModel>({
-    promise: AuthorsService.getAllPaginate,
-  });
-
-  useEffect(() => {
-    dispatch(setAuthors(authors));
-  }, [authors, dispatch]);
+export const AuthorsTableWrapper = (props: Props) => {
+  const { authors, isLoading, page, setPage, total, totalPages } = props;
 
   return (
     <Table
@@ -61,7 +50,7 @@ export const AuthorTableWrapper = () => {
         {(column) => (
           <TableColumn
             key={column.uid}
-            className={`${column.name == "ACCIONES" ? "flex items-center justify-end pr-8" : ""}`}
+            align={column.uid === "actions" ? "center" : "start"}
           >
             {column.name}
           </TableColumn>

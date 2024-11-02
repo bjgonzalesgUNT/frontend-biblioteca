@@ -9,8 +9,9 @@ import {
 import { AuthorModel } from "@/models";
 import { AuthorsService } from "@/services";
 import { Button, Switch, Tooltip } from "@nextui-org/react";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { toast } from "sonner";
+import { EditAuthor } from "../EditAuthor";
 
 interface Props {
   author: AuthorModel;
@@ -37,24 +38,11 @@ export const RenderCell = ({ author, columnKey }: Props) => {
       return <span>{author.names}</span>;
     case "nationality":
       return <span>{author.nationality}</span>;
+    case "alias":
+      return <span>{author.alias}</span>;
     case "deletedAt":
       return <Switch isSelected={state} onChange={handleChangeStatus} />;
     case "actions":
-      return (
-        <div className="flex justify-end space-x-2">
-          <Tooltip content="Ver Autor" color="success">
-            <Button isIconOnly color="success" aria-label="ver autor">
-              <EyeIcon fill="black" />
-            </Button>
-          </Tooltip>
-          <Tooltip content="Editar Autor" color="warning">
-            <Button isIconOnly color="warning" aria-label="editar autor">
-              <EditIcon fill="black" />
-            </Button>
-          </Tooltip>
-        </div>
-      );
-    default:
-      return null;
+      return <EditAuthor author={author} />;
   }
 };

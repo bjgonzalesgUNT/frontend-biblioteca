@@ -4,31 +4,48 @@ import { AuthorModel, PaginationModel } from "@/models";
 import { axiosInstance } from "@/tools";
 
 export class AuthorsService {
+  static createUrl = "/authors/create";
+  static getAllUrl = "/authors/find-all";
+  static getAllPaginatedUrl = "/authors/find-all-paginate";
+  static updateUrl = "/authors/update";
+  static changeStatusUrl = "/authors/change-status";
+
   static async create(data: AuthorFormType): Promise<AuthorModel> {
     return axiosInstance
-      .post("/authors/create", data)
+      .post(this.createUrl, data)
       .then((res) => res.data)
       .catch(throwHttpErrorHandler);
   }
   static async getAll(): Promise<AuthorModel[]> {
     return axiosInstance
-      .get("/authors/find-all")
+      .get(this.getAllUrl)
       .then((res) => res.data)
       .catch(throwHttpErrorHandler);
   }
 
-  static async getAllPaginate(
+  static async getAllPaginated(
     page: number,
   ): Promise<PaginationModel<AuthorModel>> {
     return axiosInstance
-      .get("/authors/find-all-paginate", { params: { page } })
+      .get(this.getAllPaginatedUrl, { params: { page } })
+      .then((res) => res.data)
+      .catch(throwHttpErrorHandler);
+  }
+
+  static async update(
+    id: number,
+    body: any,
+    signal?: AbortSignal,
+  ): Promise<AuthorModel> {
+    return axiosInstance
+      .patch(`${this.updateUrl}/${id}`, body, { signal })
       .then((res) => res.data)
       .catch(throwHttpErrorHandler);
   }
 
   static async changeStatus(id: number): Promise<void> {
     return axiosInstance
-      .patch(`/authors/change-status/${id}`)
+      .patch(`${this.changeStatusUrl}/${id}`)
       .then((response) => response.data)
       .catch(throwHttpErrorHandler);
   }

@@ -1,39 +1,34 @@
 "use client";
 
+import { UrlIcon } from "@/components/icons";
 import { PlusIcon } from "@/components/icons/accounts/plus-icon";
-import {
-  Button,
-  useDisclosure,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  Input,
-  Autocomplete,
-  AutocompleteItem,
-  ModalFooter,
-} from "@nextui-org/react";
-import { Fragment, useCallback, useEffect, useState } from "react";
-import { Formik } from "formik";
+import { AUTHOR_CREATE_SUCCESS_MESSAGE } from "@/constants";
+import { addAuthor, useAuthorsDispatch } from "@/context/authors";
 import { AuthorFormType } from "@/helpers/form-types/author.form-type";
 import { createAuthorSchema } from "@/helpers/schemas/author.schema";
-import { UrlIcon } from "@/components/icons";
-import {
-  NationalitiesService,
-  nationalityInterface,
-} from "@/services/nationalities.service";
-import { toast } from "sonner";
-import { genres } from "../data";
 import { AuthorsService } from "@/services";
-import { AUTHOR_CREATE_SUCCESS_MESSAGE } from "@/constants";
+import {
+  Autocomplete,
+  AutocompleteItem,
+  Button,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
+import { Formik } from "formik";
+import { Fragment, useCallback, useState } from "react";
+import { toast } from "sonner";
+import { countries, genres } from "../data";
 
 export const AddAuthor = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [nationalities, setNationalities] = useState<nationalityInterface[]>(
-    [],
-  );
+
+  const dispatch = useAuthorsDispatch();
 
   const initialValues: AuthorFormType = {
     surnames: "",
@@ -44,24 +39,12 @@ export const AddAuthor = () => {
     image_url: "",
   };
 
-  const loadNationalities = useCallback(async () => {
-    try {
-      const dataNationalities = await NationalitiesService.getAll();
-      setNationalities(dataNationalities);
-    } catch (error: any) {
-      toast.error(error.message);
-    }
-  }, []);
-  useEffect(() => {
-    loadNationalities();
-  }, [loadNationalities]);
-
   const handleSubmit = useCallback(
     async (values: AuthorFormType) => {
       setIsLoading(true);
       try {
         const newAuthor = await AuthorsService.create(values);
-        console.log(newAuthor);
+        dispatch(addAuthor(newAuthor));
         toast.success(AUTHOR_CREATE_SUCCESS_MESSAGE);
         onOpenChange();
       } catch (error: any) {
@@ -69,7 +52,7 @@ export const AddAuthor = () => {
         setIsLoading(false);
       }
     },
-    [onOpenChange],
+    [dispatch, onOpenChange],
   );
 
   return (
@@ -125,7 +108,7 @@ export const AddAuthor = () => {
                         label="Nacionalidad"
                         variant="bordered"
                         isRequired
-                        defaultItems={nationalities}
+                        defaultItems={countries}
                         selectedKey={values.nationality}
                         onSelectionChange={(value) => {
                           handleChange({
@@ -139,7 +122,7 @@ export const AddAuthor = () => {
                       >
                         {(item) => (
                           <AutocompleteItem key={item.name}>
-                            {`${item.name}`}
+                            {item.es_name}
                           </AutocompleteItem>
                         )}
                       </Autocomplete>

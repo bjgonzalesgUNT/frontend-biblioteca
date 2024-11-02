@@ -6,3 +6,7 @@ export interface AuthorFormType {
   alias: string;
   image_url: string;
 }
+
+export interface UpdateAuthorFormType {
+  image_url: string;
+}

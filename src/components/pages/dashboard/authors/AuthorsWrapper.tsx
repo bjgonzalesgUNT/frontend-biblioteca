@@ -1,17 +1,47 @@
 "use client";
 
 import {
-  Breadcrumbs,
+  getAuthorsPaginatedThunk,
+  useAuthorsDispatch,
+  useAuthorsSelector,
+} from "@/context/authors";
+import { AuthorsService } from "@/services";
+import {
   BreadcrumbItem,
+  Breadcrumbs,
   Button,
   Input,
   Skeleton,
 } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
-import { AddAuthor, AuthorTableWrapper } from "./components";
+import { useEffect, useState } from "react";
+import { AddAuthor, AuthorsTableWrapper } from "./components";
+import { toast } from "sonner";
 
 export const AuthorsWrapper = () => {
   const pathname = usePathname();
+
+  const [page, setPage] = useState<number>(1);
+  const dispatch = useAuthorsDispatch();
+
+  const {
+    isLoading,
+    rows: authors,
+    total,
+    totalPages,
+    error,
+  } = useAuthorsSelector((state) => state.authorsPaginated);
+
+  if (error) toast.error(error);
+
+  useEffect(() => {
+    dispatch(
+      getAuthorsPaginatedThunk({
+        page,
+        url: AuthorsService.getAllPaginatedUrl,
+      }),
+    );
+  }, [dispatch, page]);
 
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
@@ -45,7 +75,14 @@ export const AuthorsWrapper = () => {
         </div>
       </div>
       <div className="mx-auto w-full max-w-[95rem]">
-        <AuthorTableWrapper />
+        <AuthorsTableWrapper
+          isLoading={isLoading}
+          authors={authors}
+          page={page}
+          setPage={setPage}
+          total={total}
+          totalPages={totalPages}
+        />
       </div>
     </div>
   );
