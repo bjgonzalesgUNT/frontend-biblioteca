@@ -7,6 +7,7 @@ export class AuthorsService {
   static createUrl = "/authors/create";
   static getAllUrl = "/authors/find-all";
   static getAllPaginatedUrl = "/authors/find-all-paginate";
+  static getByFilterPaginatedUrl = "/authors/find-by-filter-paginate";
   static updateUrl = "/authors/update";
   static changeStatusUrl = "/authors/change-status";
 

@@ -6,22 +6,18 @@ import {
   useAuthorsSelector,
 } from "@/context/authors";
 import { AuthorsService } from "@/services";
-import {
-  BreadcrumbItem,
-  Breadcrumbs,
-  Button,
-  Input,
-  Skeleton,
-} from "@nextui-org/react";
+import { BreadcrumbItem, Breadcrumbs, Button } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AddAuthor, AuthorsTableWrapper } from "./components";
 import { toast } from "sonner";
+import { AddAuthor, AuthorsTableWrapper, SearchAuthor } from "./components";
 
 export const AuthorsWrapper = () => {
   const pathname = usePathname();
 
+  const [searchValue, setSearchValue] = useState<string>("");
   const [page, setPage] = useState<number>(1);
+
   const dispatch = useAuthorsDispatch();
 
   const {
@@ -34,14 +30,22 @@ export const AuthorsWrapper = () => {
 
   if (error) toast.error(error);
 
+  // * Reestablece la página a 1 cuando se realiza una búsqueda
+  const handleSearchChange = (value: string) => {
+    setSearchValue(value);
+    setPage(1);
+  };
+
   useEffect(() => {
     dispatch(
       getAuthorsPaginatedThunk({
         page,
-        url: AuthorsService.getAllPaginatedUrl,
+        url: searchValue
+          ? `${AuthorsService.getByFilterPaginatedUrl}/${searchValue}`
+          : AuthorsService.getAllPaginatedUrl,
       }),
     );
-  }, [dispatch, page]);
+  }, [dispatch, page, searchValue]);
 
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
@@ -59,18 +63,10 @@ export const AuthorsWrapper = () => {
       <h3 className="text-xl font-semibold">Lista de autores</h3>
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-3 md:flex-nowrap">
-          <Input
-            classNames={{
-              input: "w-full",
-              mainWrapper: "w-full",
-            }}
-            placeholder="Buscar autor"
-          />
+          <SearchAuthor handleSearchChange={handleSearchChange} />
         </div>
         <div className="flex flex-row flex-wrap gap-3.5">
-          <Skeleton isLoaded={true} className="rounded-md">
-            <AddAuthor />
-          </Skeleton>
+          <AddAuthor />
           <Button color="secondary">Exportar a CSV</Button>
         </div>
       </div>

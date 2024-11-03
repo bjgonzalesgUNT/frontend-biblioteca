@@ -31,7 +31,7 @@ export const AuthorsTableWrapper = (props: Props) => {
     <Table
       aria-label="Example table with custom cells"
       bottomContent={
-        total > 0 ? (
+        totalPages > 1 ? (
           <div className="flex w-full items-center justify-start">
             <Pagination
               loop

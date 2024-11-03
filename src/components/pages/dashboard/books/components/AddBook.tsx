@@ -38,7 +38,7 @@ export const AddBook = () => {
   const summaries1 = useSelector((state: IBooksStore) => state.summaries1);
   const summaries2 = useSelector((state: IBooksStore) => state.summaries2);
   const summaries3 = useSelector((state: IBooksStore) => state.summaries3);
-  const authors = useSelector((state: IBooksStore) => state.authors);
+  // const authors = useSelector((state: IBooksStore) => state.authors);
   const publishers = useSelector((state: IBooksStore) => state.publishers);
 
   const initialValues: BookFormType = {
@@ -213,7 +213,7 @@ export const AddBook = () => {
                         <Divider className="my-2" />
 
                         {/* Author */}
-                        <Autocomplete
+                        {/* <Autocomplete
                           label="Autor"
                           variant="bordered"
                           isRequired
@@ -232,7 +232,7 @@ export const AddBook = () => {
                               {`${item.surnames}, ${item.names}`}
                             </AutocompleteItem>
                           )}
-                        </Autocomplete>
+                        </Autocomplete> */}
 
                         {/* Publisher */}
                         <Autocomplete

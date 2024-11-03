@@ -48,6 +48,7 @@ export const AddAuthor = () => {
         toast.success(AUTHOR_CREATE_SUCCESS_MESSAGE);
         onOpenChange();
       } catch (error: any) {
+        toast.error(error.message);
       } finally {
         setIsLoading(false);
       }
@@ -121,7 +122,7 @@ export const AddAuthor = () => {
                         errorMessage={errors.nationality}
                       >
                         {(item) => (
-                          <AutocompleteItem key={item.name}>
+                          <AutocompleteItem key={item.es_name}>
                             {item.es_name}
                           </AutocompleteItem>
                         )}
@@ -162,9 +163,8 @@ export const AddAuthor = () => {
 
                       {/* Image */}
                       <Input
-                        label="Imagen"
+                        label="URL Imagen"
                         variant="bordered"
-                        isRequired
                         startContent={<UrlIcon />}
                         value={values.image_url}
                         onChange={handleChange("image_url")}

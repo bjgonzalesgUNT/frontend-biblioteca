@@ -1,6 +1,5 @@
 "use client";
 
-import { setAuthors } from "@/context/authors";
 import {
   setSummaries1,
   setSummaries2,
@@ -36,18 +35,18 @@ export const BooksWrapper = () => {
   const handleFetchData = useCallback(async () => {
     setIsLoading(true);
     try {
-      const [s1, s2, s3, authors, publishers] = await Promise.all([
+      const [s1, s2, s3, publishers] = await Promise.all([
         SummariesService.getS1(),
         SummariesService.getS2(),
         SummariesService.getS3(),
-        AuthorsService.getAll(),
+        // AuthorsService.getAll(),
         PublishersService.getAll(),
       ]);
 
       dispatch(setSummaries1(s1));
       dispatch(setSummaries2(s2));
       dispatch(setSummaries3(s3));
-      dispatch(setAuthors(authors));
+      // dispatch(setAuthors(authors));
       dispatch(setPublishers(publishers));
     } catch (error: any) {
       toast.error(error.message);
