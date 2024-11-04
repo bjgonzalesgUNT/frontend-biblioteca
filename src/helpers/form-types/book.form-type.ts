@@ -10,7 +10,7 @@ export interface BookFormType {
   description: string;
   pages: string;
   edition: string;
-  image_url: string;
-  path: string;
-  published_at: DateValue | string | null;
+  image_url?: string;
+  path?: string;
+  published_at: DateValue | undefined;
 }

@@ -20,6 +20,7 @@ export const PROFILE_UPDATE_SUCCESS_MESSAGE =
 
 // *BOOKS
 export const BOOK_CREATE_SUCCESS_MESSAGE = "Libro creado correctamente";
+export const BOOK_UPDATED_SUCCESS_MESSAGE = "Libro actualizado correctamente";
 
 // *AUTHORS
 export const AUTHOR_CREATE_SUCCESS_MESSAGE = "Autor creado correctamente";

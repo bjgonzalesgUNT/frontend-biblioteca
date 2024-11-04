@@ -1,6 +1,5 @@
 "use client";
 
-import { EditIcon } from "@/components/icons/table/edit-icon";
 import { EyeIcon } from "@/components/icons/table/eye-icon";
 import {
   CHANGE_STATUS_ERROR_MESSAGE,
@@ -9,8 +8,9 @@ import {
 import { BookModel } from "@/models";
 import { BooksService } from "@/services";
 import { Button, Switch, Tooltip } from "@nextui-org/react";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
+import { EditBook } from "../EditBook";
 
 interface Props {
   book: BookModel;
@@ -43,18 +43,14 @@ export const RenderCell = ({ book, columnKey }: Props) => {
       return <Switch isSelected={state} onChange={handleChangeStatus} />;
     case "actions":
       return (
-        <div className="space-x-2">
-          <Tooltip content="Ver libro" color="success">
+        <span className="flex gap-2">
+          {/* <Tooltip content="Ver libro" color="success">
             <Button isIconOnly color="success" aria-label="ver libro">
               <EyeIcon fill="black" />
             </Button>
-          </Tooltip>
-          <Tooltip content="Editar libro" color="warning">
-            <Button isIconOnly color="warning" aria-label="editar libro">
-              <EditIcon fill="black" />
-            </Button>
-          </Tooltip>
-        </div>
+          </Tooltip> */}
+          <EditBook book={book} />
+        </span>
       );
   }
 };

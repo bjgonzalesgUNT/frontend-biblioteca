@@ -1,10 +1,7 @@
 "use client";
 
 import { TABLE_BODY_EMPTY_MESSAGE } from "@/constants";
-import { setBooks } from "@/context/books";
-import { usePagination } from "@/hooks";
 import { BookModel } from "@/models";
-import { BooksService } from "@/services";
 import {
   Pagination,
   Spinner,
@@ -15,34 +12,26 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { columns } from "./data";
 import { RenderCell } from "./RenderCell";
 
-export const BooksTableWrapper = () => {
-  const dispatch = useDispatch();
+interface Props {
+  isLoading: boolean;
+  total: number;
+  totalPages: number;
+  page: number;
+  setPage: (page: number) => void;
+  books: BookModel[];
+}
 
-  const {
-    isLoading,
-    total,
-    totalPages,
-    page,
-    setPage,
-    data: books,
-  } = usePagination<BookModel>({
-    promise: BooksService.getAllPaginate,
-  });
-
-  useEffect(() => {
-    dispatch(setBooks(books));
-  }, [books, dispatch]);
+export const BooksTableWrapper = (props: Props) => {
+  const { isLoading, totalPages, page, setPage, books } = props;
 
   return (
     <Table
       aria-label="Example table with custom cells"
       bottomContent={
-        total > 0 ? (
+        totalPages > 1 ? (
           <div className="flex w-full items-center justify-start">
             <Pagination
               loop
@@ -58,7 +47,14 @@ export const BooksTableWrapper = () => {
       }
     >
       <TableHeader columns={columns}>
-        {(column) => <TableColumn key={column.uid}>{column.name}</TableColumn>}
+        {(column) => (
+          <TableColumn
+            key={column.uid}
+            align={column.uid === "actions" ? "center" : "start"}
+          >
+            {column.name}
+          </TableColumn>
+        )}
       </TableHeader>
       <TableBody
         items={books}

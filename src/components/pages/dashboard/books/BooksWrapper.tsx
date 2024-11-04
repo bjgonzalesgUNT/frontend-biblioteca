@@ -1,63 +1,57 @@
 "use client";
 
 import {
-  setSummaries1,
-  setSummaries2,
-  setSummaries3,
-} from "@/context/books/slices";
-import {
-  AuthorsService,
-  PublishersService,
-  SummariesService,
-} from "@/services";
+  getBooksPaginated,
+  useBooksDispatch,
+  useBooksSelector,
+} from "@/context/books";
+import { BooksService } from "@/services";
 import {
   BreadcrumbItem,
   Breadcrumbs,
   Button,
-  Input,
   Skeleton,
 } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { AddBook } from "./components";
+import { AddBook, SearchBook } from "./components";
 import { BooksTableWrapper } from "./components/table";
-import { setPublishers } from "@/context/publishers";
 
 export const BooksWrapper = () => {
   const pathname = usePathname();
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [searchValue, setSearchValue] = useState<string>("");
 
-  const dispatch = useDispatch();
+  const dispatch = useBooksDispatch();
 
-  const handleFetchData = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const [s1, s2, s3, publishers] = await Promise.all([
-        SummariesService.getS1(),
-        SummariesService.getS2(),
-        SummariesService.getS3(),
-        // AuthorsService.getAll(),
-        PublishersService.getAll(),
-      ]);
+  const {
+    isLoading,
+    currentPage,
+    rows: books,
+    total,
+    totalPages,
+    error,
+  } = useBooksSelector((state) => state.booksPaginated);
 
-      dispatch(setSummaries1(s1));
-      dispatch(setSummaries2(s2));
-      dispatch(setSummaries3(s3));
-      // dispatch(setAuthors(authors));
-      dispatch(setPublishers(publishers));
-    } catch (error: any) {
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [dispatch]);
+  if (error) toast.error(error);
+
+  const handleChangeValue = (value: string) => {
+    setSearchValue(value);
+    setPage(1);
+  };
 
   useEffect(() => {
-    handleFetchData();
-  }, [handleFetchData]);
+    dispatch(
+      getBooksPaginated({
+        page,
+        url: searchValue
+          ? `${BooksService.findByFilterPaginateUrl}/${searchValue}`
+          : BooksService.findAllPaginateUrl,
+      }),
+    );
+  }, [dispatch, page, searchValue]);
 
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
@@ -75,23 +69,22 @@ export const BooksWrapper = () => {
       <h3 className="text-xl font-semibold">Lista de libros</h3>
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-3 md:flex-nowrap">
-          <Input
-            classNames={{
-              input: "w-full",
-              mainWrapper: "w-full",
-            }}
-            placeholder="Buscar libro"
-          />
+          <SearchBook handleChangeValue={handleChangeValue} />
         </div>
         <div className="flex flex-row flex-wrap gap-3.5">
-          <Skeleton isLoaded={!isLoading} className="rounded-md">
-            <AddBook />
-          </Skeleton>
+          <AddBook />
           <Button color="secondary">Exportar a CSV</Button>
         </div>
       </div>
       <div className="mx-auto w-full max-w-[95rem]">
-        <BooksTableWrapper />
+        <BooksTableWrapper
+          books={books}
+          isLoading={isLoading}
+          page={currentPage}
+          setPage={setPage}
+          total={total}
+          totalPages={totalPages}
+        />
       </div>
     </div>
   );
