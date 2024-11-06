@@ -1,7 +1,7 @@
 "use client";
 
 import { TABLE_BODY_EMPTY_MESSAGE } from "@/constants";
-import { BookModel } from "@/models";
+import { AuthorModel } from "@/models";
 import {
   Pagination,
   Spinner,
@@ -21,11 +21,11 @@ interface Props {
   totalPages: number;
   page: number;
   setPage: (page: number) => void;
-  books: BookModel[];
+  authors: AuthorModel[];
 }
 
-export const BooksTableWrapper = (props: Props) => {
-  const { isLoading, totalPages, page, setPage, books } = props;
+export const AuthorsTableWrapper = (props: Props) => {
+  const { authors, isLoading, page, setPage, total, totalPages } = props;
 
   return (
     <Table
@@ -56,22 +56,24 @@ export const BooksTableWrapper = (props: Props) => {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody
-        items={books}
-        isLoading={isLoading}
-        loadingContent={<Spinner />}
-        emptyContent={TABLE_BODY_EMPTY_MESSAGE}
-      >
-        {(user) => (
-          <TableRow>
-            {(columnKey: any) => (
-              <TableCell>
-                <RenderCell book={user} columnKey={columnKey} />
-              </TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
+      {
+        <TableBody
+          items={authors}
+          isLoading={isLoading}
+          loadingContent={<Spinner />}
+          emptyContent={TABLE_BODY_EMPTY_MESSAGE}
+        >
+          {(user) => (
+            <TableRow>
+              {(columnKey: any) => (
+                <TableCell>
+                  <RenderCell author={user} columnKey={columnKey} />
+                </TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      }
     </Table>
   );
 };
