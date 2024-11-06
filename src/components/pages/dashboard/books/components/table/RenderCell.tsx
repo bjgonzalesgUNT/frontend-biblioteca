@@ -39,11 +39,13 @@ export const RenderCell = ({ book, columnKey }: Props) => {
       return <span>{book.deway.description}</span>;
     case "publisher":
       return <span>{book.publisher.name}</span>;
+    case "edition":
+      return <span>{book.edition}</span>;
     case "deletedAt":
       return <Switch isSelected={state} onChange={handleChangeStatus} />;
     case "actions":
       return (
-        <span className="flex gap-2">
+        <span className="space-x-2">
           {/* <Tooltip content="Ver libro" color="success">
             <Button isIconOnly color="success" aria-label="ver libro">
               <EyeIcon fill="black" />
