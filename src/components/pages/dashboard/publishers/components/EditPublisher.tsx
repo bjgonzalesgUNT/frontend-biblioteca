@@ -87,6 +87,7 @@ export const EditPublisher = ({ publisher }: Props) => {
               initialValues={initialValues}
               validationSchema={createPublisherSchema}
               onSubmit={handleSubmit}
+              validateOnMount
               validate={handleValidate}
             >
               {({
