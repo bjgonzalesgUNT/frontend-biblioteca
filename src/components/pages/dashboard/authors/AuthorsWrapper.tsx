@@ -1,54 +1,48 @@
 "use client";
 
 import {
-  getBooksPaginated,
-  useBooksDispatch,
-  useBooksSelector,
-} from "@/context/books";
-import { BooksService } from "@/services";
-import {
-  BreadcrumbItem,
-  Breadcrumbs,
-  Button,
-  Skeleton,
-} from "@nextui-org/react";
+  getAuthorsPaginatedThunk,
+  useAuthorsDispatch,
+  useAuthorsSelector,
+} from "@/context/authors";
+import { AuthorsService } from "@/services";
+import { BreadcrumbItem, Breadcrumbs, Button } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { AddBook, SearchBook } from "./components";
-import { BooksTableWrapper } from "./components/table";
+import { AddAuthor, AuthorsTableWrapper, SearchAuthor } from "./components";
 
-export const BooksWrapper = () => {
+export const AuthorsWrapper = () => {
   const pathname = usePathname();
 
-  const [page, setPage] = useState<number>(1);
   const [searchValue, setSearchValue] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
 
-  const dispatch = useBooksDispatch();
+  const dispatch = useAuthorsDispatch();
 
   const {
     isLoading,
-    currentPage,
-    rows: books,
+    rows: authors,
     total,
     totalPages,
     error,
-  } = useBooksSelector((state) => state.booksPaginated);
+  } = useAuthorsSelector((state) => state.authorsPaginated);
 
   if (error) toast.error(error);
 
-  const handleChangeValue = (value: string) => {
+  // * Reestablece la página a 1 cuando se realiza una búsqueda
+  const handleSearchChange = (value: string) => {
     setSearchValue(value);
     setPage(1);
   };
 
   useEffect(() => {
     dispatch(
-      getBooksPaginated({
+      getAuthorsPaginatedThunk({
         page,
         url: searchValue
-          ? `${BooksService.findByFilterPaginateUrl}/${searchValue}`
-          : BooksService.findAllPaginateUrl,
+          ? `${AuthorsService.getByFilterPaginatedUrl}/${searchValue}`
+          : AuthorsService.getAllPaginatedUrl,
       }),
     );
   }, [dispatch, page, searchValue]);
@@ -66,21 +60,21 @@ export const BooksWrapper = () => {
         ))}
       </Breadcrumbs>
 
-      <h3 className="text-xl font-semibold">Lista de libros</h3>
+      <h3 className="text-xl font-semibold">Lista de autores</h3>
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-3 md:flex-nowrap">
-          <SearchBook handleChangeValue={handleChangeValue} />
+          <SearchAuthor handleSearchChange={handleSearchChange} />
         </div>
         <div className="flex flex-row flex-wrap gap-3.5">
-          <AddBook />
+          <AddAuthor />
           <Button color="secondary">Exportar a CSV</Button>
         </div>
       </div>
       <div className="mx-auto w-full max-w-[95rem]">
-        <BooksTableWrapper
-          books={books}
+        <AuthorsTableWrapper
           isLoading={isLoading}
-          page={currentPage}
+          authors={authors}
+          page={page}
           setPage={setPage}
           total={total}
           totalPages={totalPages}

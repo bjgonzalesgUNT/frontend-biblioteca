@@ -58,6 +58,13 @@ export const SidebarWrapper = () => {
                 href="/dashboard/publishers"
               />
 
+              <SidebarItem
+                isActive={pathname === "/dashboard/authors"}
+                title="Autores"
+                icon={<AccountsIcon />}
+                href="/dashboard/authors"
+              />
+
               {/* <CollapseItems
                 icon={<BalanceIcon />}
                 items={["Banks Accounts", "Credit Cards", "Loans"]}

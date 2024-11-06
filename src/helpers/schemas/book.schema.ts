@@ -30,9 +30,9 @@ export const createBookSchema = object().shape({
     .required("La edición es requerida"),
   image_url: string()
     .url('La imagen debe ser una URL válida (ejemplo: "http://example.com")')
-    .required("La imagen es requerida"),
+    .optional(),
   path: string()
     .url('La ruta debe ser una URL válida (ejemplo: "http://example.com")')
-    .required("La ruta es requerida"),
+    .optional(),
   published_at: string().required("La fecha de publicación es requerida"),
 });

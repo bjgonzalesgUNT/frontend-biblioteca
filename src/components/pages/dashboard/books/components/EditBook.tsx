@@ -1,13 +1,14 @@
 "use client";
 
 import { UrlIcon } from "@/components/icons";
-import { PlusIcon } from "@/components/icons/accounts/plus-icon";
-import { BOOK_CREATE_SUCCESS_MESSAGE } from "@/constants";
+import { EditIcon } from "@/components/icons/table/edit-icon";
+import { BOOK_UPDATED_SUCCESS_MESSAGE } from "@/constants";
 import { addBook, useBooksDispatch } from "@/context/books";
 import { BookFormType } from "@/helpers/form-types/book.form-type";
 import { createBookSchema } from "@/helpers/schemas";
 import {
   AuthorModel,
+  BookModel,
   PublisherModel,
   Summary1Model,
   Summary2Model,
@@ -25,7 +26,6 @@ import {
   AutocompleteItem,
   Button,
   DateInput,
-  DateValue,
   Divider,
   Input,
   Modal,
@@ -33,17 +33,24 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
 import { Formik } from "formik";
 import { Fragment, useCallback, useState } from "react";
 import { toast } from "sonner";
 
-export const AddBook = () => {
+interface Props {
+  book: BookModel;
+}
+
+export const EditBook = ({ book }: Props) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(false);
+
+  const [haveChanges, setHaveChanges] = useState<boolean>(false);
 
   const [summaries1, setSummaries1] = useState<Summary1Model[]>([]);
   const [summaries2, setSummaries2] = useState<Summary2Model[]>([]);
@@ -81,28 +88,35 @@ export const AddBook = () => {
   };
 
   const initialValues: BookFormType = {
-    title: "",
-    summary_1_id: "",
-    summary_2_id: "",
-    deway_id: "",
-    author_id: "",
-    publisher_id: "",
-    description: "",
-    pages: "",
-    edition: "",
-    published_at: undefined,
+    title: book.title,
+    summary_1_id: book.deway.summary2.summary_1_id.toString(),
+    summary_2_id: book.deway.summary_2_id.toString(),
+    deway_id: book.deway_id.toString(),
+    author_id: book.author_id.toString(),
+    publisher_id: book.publisher_id.toString(),
+    description: book.description,
+    pages: book.pages.toString(),
+    edition: book.edition.toString(),
+    published_at: parseDate(book.published_at),
+  };
+
+  const handleChanges = (values: BookFormType) => {
+    const haveChanges = Object.entries(initialValues).some(
+      ([key, value]) => value !== values[key as keyof BookFormType],
+    );
+    setHaveChanges(haveChanges);
   };
 
   const handleSubmit = useCallback(
     async (values: BookFormType) => {
       setIsLoading(true);
       try {
-        const newBook = await BooksService.create({
+        const newBook = await BooksService.update(book.id, {
           ...values,
           published_at: parseDate(values.published_at!.toString()),
         });
         dispatch(addBook(newBook));
-        toast.success(BOOK_CREATE_SUCCESS_MESSAGE);
+        toast.success(BOOK_UPDATED_SUCCESS_MESSAGE);
         onOpenChange();
       } catch (error: any) {
         toast.error(error.message);
@@ -110,18 +124,21 @@ export const AddBook = () => {
         setIsLoading(false);
       }
     },
-    [dispatch, onOpenChange],
+    [book.id, dispatch, onOpenChange],
   );
 
   return (
-    <div>
-      <Button
-        onPress={handleOpenModal}
-        color="primary"
-        startContent={<PlusIcon />}
-      >
-        Crear
-      </Button>
+    <Fragment>
+      <Tooltip content="Editar libro" color="warning">
+        <Button
+          isIconOnly
+          color="warning"
+          aria-label="editar libro"
+          onPress={handleOpenModal}
+        >
+          <EditIcon fill="black" />
+        </Button>
+      </Tooltip>
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
@@ -134,13 +151,20 @@ export const AddBook = () => {
               <ModalHeader className="flex flex-col gap-1">
                 Agregar libro
               </ModalHeader>
-
               <Formik
                 initialValues={initialValues}
                 validationSchema={createBookSchema}
                 onSubmit={handleSubmit}
+                validate={handleChanges}
               >
-                {({ values, errors, touched, handleChange, handleSubmit }) => (
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleSubmit,
+                  handleReset,
+                }) => (
                   <Fragment>
                     <ModalBody>
                       <div className="flex w-full flex-col gap-4">
@@ -366,7 +390,7 @@ export const AddBook = () => {
                           label="Fecha publicacion"
                           variant="bordered"
                           isRequired
-                          value={values.published_at as DateValue}
+                          value={values.published_at}
                           onChange={(value) =>
                             handleChange({
                               target: { name: "published_at", value },
@@ -379,17 +403,29 @@ export const AddBook = () => {
                         />
                       </div>
                     </ModalBody>
-                    <ModalFooter>
-                      <Button color="danger" variant="flat" onClick={onClose}>
-                        Cerrar
+                    <ModalFooter className="flex justify-between gap-2">
+                      <Button color="danger" onPress={onClose}>
+                        Cancelar
                       </Button>
-                      <Button
-                        color="primary"
-                        isLoading={isLoading}
-                        onPress={() => handleSubmit()}
-                      >
-                        Agregar
-                      </Button>
+                      <div className="space-x-2">
+                        <Button
+                          color="secondary"
+                          variant="ghost"
+                          isDisabled={!haveChanges}
+                          onPress={() => handleReset()}
+                        >
+                          Reestablecer
+                        </Button>
+                        <Button
+                          color="primary"
+                          variant="shadow"
+                          isLoading={isLoading}
+                          isDisabled={!haveChanges}
+                          onPress={() => handleSubmit()}
+                        >
+                          Actualizar
+                        </Button>
+                      </div>
                     </ModalFooter>
                   </Fragment>
                 )}
@@ -398,6 +434,6 @@ export const AddBook = () => {
           )}
         </ModalContent>
       </Modal>
-    </div>
+    </Fragment>
   );
 };

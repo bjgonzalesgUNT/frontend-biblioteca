@@ -1,3 +1,4 @@
+import { DateValue } from "@nextui-org/react";
 import { Summary3Model } from "./summary-3.model";
 import { TimestampModel } from "./timestamp.model";
 
@@ -12,7 +13,7 @@ export interface BookModel extends TimestampModel {
   edition: number;
   path: string;
   image_url: string;
-  published_at: Date;
+  published_at: string;
   deway: Summary3Model;
   author: Author;
   publisher: Publisher;

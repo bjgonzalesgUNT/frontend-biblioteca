@@ -9,7 +9,7 @@ export const columns: IColumns[] = [
   { name: "TITULO", uid: "title" },
   { name: "AUTOR", uid: "author" },
   { name: "DEWAY", uid: "deway" },
-  { name: "NOMBRE", uid: "publisher" },
+  { name: "EDITORIAL", uid: "publisher" },
   { name: "ESTADO", uid: "deletedAt" },
   { name: "ACCIONES", uid: "actions" },
 ];
