@@ -1,8 +1,9 @@
 "use client";
 
-import { RowsPerPage } from "@/components/paginate";
 import { TABLE_BODY_EMPTY_MESSAGE } from "@/constants";
-import { IUsersStore, setUsers } from "@/context/users";
+import { setUsers } from "@/context/users";
+import { usePagination } from "@/hooks";
+import { UserModel } from "@/models";
 import { UsersService } from "@/services";
 import {
   Pagination,
@@ -14,61 +15,41 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "sonner";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { columns } from "./data";
 import { RenderCell } from "./RenderCell";
 
 export const UsersTableWrapper = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [total, setTotal] = useState<number>(0);
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(10);
-  const [page, setPage] = useState<number>(1);
-
   const dispatch = useDispatch();
 
-  const users = useSelector((store: IUsersStore) => store.users);
-
-  const handleGetUsers = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const { rows, total, totalPages, currentPage } =
-        await UsersService.getAllPaginate(page, limit);
-      dispatch(setUsers(rows));
-      setPage(currentPage);
-      setTotal(total);
-      setTotalPages(totalPages);
-    } catch (error: any) {
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [page, limit, dispatch]);
+  const {
+    isLoading,
+    total,
+    totalPages,
+    page,
+    setPage,
+    data: users,
+  } = usePagination<UserModel>({ promise: UsersService.getAllPaginate });
 
   useEffect(() => {
-    handleGetUsers();
-  }, [handleGetUsers]);
+    dispatch(setUsers(users));
+  }, [users, dispatch]);
 
   return (
     <Table
       aria-label="Example table with custom cells"
       bottomContent={
-        users.length > 0 ? (
-          <div className="flex w-full items-center justify-between">
+        total > 0 ? (
+          <div className="flex w-full items-center justify-start">
             <Pagination
+              loop
+              size="lg"
               showControls
               total={totalPages}
+              page={page}
               onChange={setPage}
-              initialPage={page}
-            />
-            <RowsPerPage
-              limit={limit}
-              total={total}
-              onChange={(e) =>
-                e.target.value && setLimit(Number(e.target.value))
-              }
+              initialPage={1}
             />
           </div>
         ) : null

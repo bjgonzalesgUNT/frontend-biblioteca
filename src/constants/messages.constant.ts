@@ -17,3 +17,17 @@ export const PASSWORD_CHANGE_SUCCESS_MESSAGE =
 // *PROFILE
 export const PROFILE_UPDATE_SUCCESS_MESSAGE =
   "Perfil actualizado correctamente";
+
+// *BOOKS
+export const BOOK_CREATE_SUCCESS_MESSAGE = "Libro creado correctamente";
+export const BOOK_UPDATED_SUCCESS_MESSAGE = "Libro actualizado correctamente";
+
+// *AUTHORS
+export const AUTHOR_CREATE_SUCCESS_MESSAGE = "Autor creado correctamente";
+export const AUTHOR_UPDATE_SUCCESS_MESSAGE = "Autor actualizado correctamente";
+
+// *PUBLISHERS
+export const PUBLISHER_CREATE_SUCCESS_MESSAGE =
+  "Editorial creado correctamente";
+export const PUBLISHER_UPDATE_SUCCESS_MESSAGE =
+  "Editorial actualizado correctamente";

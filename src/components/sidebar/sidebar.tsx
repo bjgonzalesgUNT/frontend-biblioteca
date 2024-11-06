@@ -6,6 +6,7 @@ import { useSidebarContext } from "../layout/dashboard/layout-context";
 import { SidebarItem } from "./sidebar-item";
 import { SidebarMenu } from "./sidebar-menu";
 import { Sidebar } from "./sidebar.styles";
+import { AuthorIcon, BooksIcon, PublisherIcon } from "../icons";
 
 export const SidebarWrapper = () => {
   const pathname = usePathname();
@@ -44,11 +45,25 @@ export const SidebarWrapper = () => {
                 href="/dashboard/users"
               />
 
-              {/* <CollapseItems
-                icon={<BalanceIcon />}
-                items={["Banks Accounts", "Credit Cards", "Loans"]}
-                title="Balances"
-              /> */}
+              <SidebarItem
+                isActive={pathname === "/dashboard/books"}
+                title="Libros"
+                icon={<BooksIcon />}
+                href="/dashboard/books"
+              />
+              <SidebarItem
+                isActive={pathname === "/dashboard/publishers"}
+                title="Editoriales"
+                icon={<PublisherIcon />}
+                href="/dashboard/publishers"
+              />
+
+              <SidebarItem
+                isActive={pathname === "/dashboard/authors"}
+                title="Autores"
+                icon={<AuthorIcon />}
+                href="/dashboard/authors"
+              />
             </SidebarMenu>
           </div>
         </div>

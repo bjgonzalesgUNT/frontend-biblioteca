@@ -27,13 +27,11 @@ export const UserDropdown = () => {
     <Dropdown>
       <NavbarItem>
         <DropdownTrigger>
-          <Skeleton isLoaded={!!user} className="rounded-md">
-            <User
-              name={user?.username}
-              description={user?.role}
-              className="cursor-pointer"
-            />
-          </Skeleton>
+          <User
+            name={user?.username}
+            description={user?.role}
+            className="cursor-pointer"
+          />
         </DropdownTrigger>
       </NavbarItem>
       <DropdownMenu aria-label="Menu de acciones de usuario">
