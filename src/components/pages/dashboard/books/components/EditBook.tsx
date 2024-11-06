@@ -155,6 +155,7 @@ export const EditBook = ({ book }: Props) => {
                 initialValues={initialValues}
                 validationSchema={createBookSchema}
                 onSubmit={handleSubmit}
+                validateOnMount
                 validate={handleChanges}
               >
                 {({
