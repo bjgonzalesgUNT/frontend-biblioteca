@@ -4,7 +4,7 @@ export interface AuthorFormType {
   nationality: string;
   gender: string;
   alias: string;
-  image_url: string;
+  image_url?: string;
 }
 
 export interface UpdateAuthorFormType {

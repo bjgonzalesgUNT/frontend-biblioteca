@@ -99,9 +99,7 @@ export const AddUser = () => {
         <ModalContent>
           {(onClose) => (
             <Fragment>
-              <ModalHeader className="flex flex-col gap-1">
-                Agregar Usuario
-              </ModalHeader>
+              <ModalHeader>Agregar Usuario</ModalHeader>
               <Formik
                 initialValues={initialValues}
                 validationSchema={createUserSchema}

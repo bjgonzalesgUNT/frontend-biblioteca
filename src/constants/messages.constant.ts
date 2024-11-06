@@ -29,3 +29,5 @@ export const AUTHOR_UPDATE_SUCCESS_MESSAGE = "Autor actualizado correctamente";
 // *PUBLISHERS
 export const PUBLISHER_CREATE_SUCCESS_MESSAGE =
   "Editorial creado correctamente";
+export const PUBLISHER_UPDATE_SUCCESS_MESSAGE =
+  "Editorial actualizado correctamente";

@@ -20,28 +20,39 @@ interface Props {
   total: number;
   totalPages: number;
   page: number;
+  count: number;
   setPage: (page: number) => void;
   authors: AuthorModel[];
 }
 
 export const AuthorsTableWrapper = (props: Props) => {
-  const { authors, isLoading, page, setPage, total, totalPages } = props;
+  const { authors, isLoading, page, setPage, totalPages, total, count } = props;
 
   return (
     <Table
       aria-label="Example table with custom cells"
       bottomContent={
-        totalPages > 1 ? (
-          <div className="flex w-full items-center justify-start">
-            <Pagination
-              loop
-              size="lg"
-              showControls
-              total={totalPages}
-              page={page}
-              onChange={setPage}
-              initialPage={1}
-            />
+        total > 0 ? (
+          <div className="flex w-full items-center justify-between gap-2">
+            <span className="text-sm text-default-400">
+              Mostrando
+              <span className="mx-1">
+                {(page - 1) * 10 + count} de {total}
+              </span>
+              resultados
+            </span>
+            {totalPages > 1 ? (
+              <Pagination
+                loop
+                size="lg"
+                showControls
+                isCompact
+                total={totalPages}
+                page={page}
+                onChange={setPage}
+                initialPage={1}
+              />
+            ) : null}
           </div>
         ) : null
       }
@@ -63,11 +74,11 @@ export const AuthorsTableWrapper = (props: Props) => {
           loadingContent={<Spinner />}
           emptyContent={TABLE_BODY_EMPTY_MESSAGE}
         >
-          {(user) => (
+          {(author) => (
             <TableRow>
               {(columnKey: any) => (
                 <TableCell>
-                  <RenderCell author={user} columnKey={columnKey} />
+                  <RenderCell author={author} columnKey={columnKey} />
                 </TableCell>
               )}
             </TableRow>

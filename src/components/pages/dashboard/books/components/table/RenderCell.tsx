@@ -52,5 +52,7 @@ export const RenderCell = ({ book, columnKey }: Props) => {
           <EditBook book={book} />
         </span>
       );
+    default:
+      return null;
   }
 };

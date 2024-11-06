@@ -1,15 +1,13 @@
 "use client";
 
-import { EditIcon } from "@/components/icons/table/edit-icon";
-import { EyeIcon } from "@/components/icons/table/eye-icon";
 import {
   CHANGE_STATUS_ERROR_MESSAGE,
   CHANGE_STATUS_SUCCESS_MESSAGE,
 } from "@/constants";
 import { AuthorModel } from "@/models";
 import { AuthorsService } from "@/services";
-import { Button, Switch, Tooltip } from "@nextui-org/react";
-import { Fragment, useState } from "react";
+import { Switch } from "@nextui-org/react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { EditAuthor } from "../EditAuthor";
 
@@ -44,5 +42,7 @@ export const RenderCell = ({ author, columnKey }: Props) => {
       return <Switch isSelected={state} onChange={handleChangeStatus} />;
     case "actions":
       return <EditAuthor author={author} />;
+    default:
+      return null;
   }
 };

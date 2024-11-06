@@ -32,6 +32,7 @@ export const BooksWrapper = () => {
     rows: books,
     total,
     totalPages,
+    count,
     error,
   } = useBooksSelector((state) => state.booksPaginated);
 
@@ -84,6 +85,7 @@ export const BooksWrapper = () => {
           setPage={setPage}
           total={total}
           totalPages={totalPages}
+          count={count}
         />
       </div>
     </div>

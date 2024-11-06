@@ -25,6 +25,7 @@ export const AuthorsWrapper = () => {
     rows: authors,
     total,
     totalPages,
+    count,
     error,
   } = useAuthorsSelector((state) => state.authorsPaginated);
 
@@ -78,6 +79,7 @@ export const AuthorsWrapper = () => {
           setPage={setPage}
           total={total}
           totalPages={totalPages}
+          count={count}
         />
       </div>
     </div>

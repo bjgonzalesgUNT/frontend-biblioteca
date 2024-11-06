@@ -7,5 +7,5 @@ export interface AuthorModel extends TimestampModel {
   nationality: string;
   gender: string;
   alias: string;
-  image_url: string;
+  image_url?: string;
 }

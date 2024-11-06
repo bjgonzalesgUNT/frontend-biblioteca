@@ -36,7 +36,6 @@ export const AddAuthor = () => {
     nationality: "",
     gender: "",
     alias: "",
-    image_url: "",
   };
 
   const handleSubmit = useCallback(

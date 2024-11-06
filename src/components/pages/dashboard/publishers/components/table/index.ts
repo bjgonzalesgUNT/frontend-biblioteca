@@ -1,3 +1,3 @@
 export * from "./data";
-export * from "./PublisherTableWrapper";
+export * from "./PublishersTableWrapper";
 export * from "./RenderCell";

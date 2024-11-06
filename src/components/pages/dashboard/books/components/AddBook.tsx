@@ -131,9 +131,7 @@ export const AddBook = () => {
         <ModalContent>
           {(onClose) => (
             <Fragment>
-              <ModalHeader className="flex flex-col gap-1">
-                Agregar libro
-              </ModalHeader>
+              <ModalHeader>Agregar libro</ModalHeader>
 
               <Formik
                 initialValues={initialValues}

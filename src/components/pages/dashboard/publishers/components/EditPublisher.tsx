@@ -1,11 +1,12 @@
-import { UrlIcon } from "@/components/icons";
+"use client";
+
 import { EditIcon } from "@/components/icons/table/edit-icon";
-import { AUTHOR_UPDATE_SUCCESS_MESSAGE } from "@/constants";
-import { updateAuthor, useAuthorsDispatch } from "@/context/authors";
-import { UpdateAuthorFormType } from "@/helpers/form-types/author.form-type";
-import { updateAuthorSchema } from "@/helpers/schemas";
-import { AuthorModel } from "@/models";
-import { AuthorsService } from "@/services";
+import { PUBLISHER_UPDATE_SUCCESS_MESSAGE } from "@/constants";
+import { updatePublisher, usePublishersDispatch } from "@/context/publishers";
+import { PublisherFormType } from "@/helpers/form-types/publisher.form-type";
+import { createPublisherSchema } from "@/helpers/schemas/publisher.schema";
+import { PublisherModel } from "@/models";
+import { PublishersService } from "@/services";
 import {
   Button,
   Input,
@@ -18,32 +19,43 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { Formik } from "formik";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { toast } from "sonner";
 
 interface Props {
-  author: AuthorModel;
+  publisher: PublisherModel;
 }
 
-export const EditAuthor = ({ author }: Props) => {
+export const EditPublisher = ({ publisher }: Props) => {
+  const { onOpen, onOpenChange, isOpen } = useDisclosure();
+
   const [haveChanges, setHaveChanges] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const dispatch = useAuthorsDispatch();
+  const dispatch = usePublishersDispatch();
 
-  const initialValues: UpdateAuthorFormType = {
-    image_url: author.image_url || "",
+  const initialValues: PublisherFormType = {
+    name: publisher.name,
   };
 
-  const handleSubmit = async (values: UpdateAuthorFormType) => {
+  const handleValidate = (values: PublisherFormType) => {
+    const haveChanges = Object.entries(initialValues).some(
+      ([key, value]) => value !== values[key as keyof PublisherFormType],
+    );
+    setHaveChanges(haveChanges);
+  };
+
+  const handleSubmit = async (values: PublisherFormType) => {
     setIsLoading(true);
     try {
-      const authorUpdated = await AuthorsService.update(author.id, values);
-      toast.success(AUTHOR_UPDATE_SUCCESS_MESSAGE);
-      dispatch(updateAuthor(authorUpdated));
-      onOpenChange();
+      const publisherUpdated = await PublishersService.update(
+        publisher.id,
+        values,
+      );
+      dispatch(updatePublisher(publisherUpdated));
       setHaveChanges(false);
+      toast.success(PUBLISHER_UPDATE_SUCCESS_MESSAGE);
+      onOpenChange();
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -51,20 +63,13 @@ export const EditAuthor = ({ author }: Props) => {
     }
   };
 
-  const handleChanges = (values: UpdateAuthorFormType) => {
-    const haveChanges = Object.entries(initialValues).some(
-      ([key, value]) => value !== values[key as keyof UpdateAuthorFormType],
-    );
-    setHaveChanges(haveChanges);
-  };
-
   return (
-    <Fragment>
-      <Tooltip content="Editar Autor" color="warning">
+    <div>
+      <Tooltip content="Editar editorial" color="warning">
         <Button
           isIconOnly
           color="warning"
-          aria-label="editar autor"
+          aria-label="editar editorial"
           onPress={onOpen}
         >
           <EditIcon fill="black" />
@@ -80,39 +85,37 @@ export const EditAuthor = ({ author }: Props) => {
           {(onClose) => (
             <Formik
               initialValues={initialValues}
-              validationSchema={updateAuthorSchema}
+              validationSchema={createPublisherSchema}
               onSubmit={handleSubmit}
-              validateOnMount
-              validate={handleChanges}
+              validate={handleValidate}
             >
               {({
                 values,
-                touched,
                 errors,
-                handleSubmit,
+                touched,
                 handleChange,
+                handleSubmit,
                 handleReset,
               }) => (
                 <Fragment>
-                  <ModalHeader>
+                  <ModalHeader className="flex flex-col gap-1">
                     <p className="w-full text-center text-xl font-bold uppercase md:text-2xl">
-                      Editar Autor
+                      Editar editoral
                       <span className="ml-2 text-orange-500">
-                        {author.alias}
+                        {publisher.name}
                       </span>
                     </p>
                   </ModalHeader>
                   <ModalBody>
-                    {values.image_url}
+                    {/* Nombre de la editorial */}
                     <Input
-                      label="Imagen"
+                      label="Nombre"
                       variant="bordered"
                       isRequired
-                      startContent={<UrlIcon />}
-                      value={values.image_url}
-                      onChange={handleChange("image_url")}
-                      isInvalid={!!errors.image_url && !!touched.image_url}
-                      errorMessage={errors.image_url}
+                      value={values.name.toUpperCase()}
+                      onChange={handleChange("name")}
+                      isInvalid={!!errors.name && !!touched.name}
+                      errorMessage={errors.name}
                     />
                   </ModalBody>
                   <ModalFooter className="flex justify-between gap-2">
@@ -148,6 +151,6 @@ export const EditAuthor = ({ author }: Props) => {
           )}
         </ModalContent>
       </Modal>
-    </Fragment>
+    </div>
   );
 };

@@ -1,6 +1,11 @@
 "use client";
 
 import { PlusIcon } from "@/components/icons/accounts/plus-icon";
+import { PUBLISHER_CREATE_SUCCESS_MESSAGE } from "@/constants";
+import { addPublisher, usePublishersDispatch } from "@/context/publishers";
+import { PublisherFormType } from "@/helpers/form-types/publisher.form-type";
+import { createPublisherSchema } from "@/helpers/schemas/publisher.schema";
+import { PublishersService } from "@/services";
 import {
   Button,
   Input,
@@ -11,34 +16,34 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import { Fragment, useCallback, useState } from "react";
 import { Formik } from "formik";
-import { PublisherFormType } from "@/helpers/form-types/publisher.form-type";
-import { createPublisherSchema } from "@/helpers/schemas/publisher.schema";
+import { Fragment, useState } from "react";
 import { toast } from "sonner";
-import { PUBLISHER_CREATE_SUCCESS_MESSAGE } from "@/constants";
-import { PublishersService } from "@/services";
 
 export const AddPublisher = () => {
   const { onOpen, onOpenChange, isOpen } = useDisclosure();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const dispatch = usePublishersDispatch();
+
   const initialValues: PublisherFormType = {
     name: "",
   };
-  const handleSubmit = useCallback(
-    async (values: PublisherFormType) => {
-      setIsLoading(true);
-      try {
-        const publisher = await PublishersService.create(values);
-        toast.success(PUBLISHER_CREATE_SUCCESS_MESSAGE);
-        onOpenChange();
-      } catch (error: any) {
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [onOpenChange],
-  );
+
+  const handleSubmit = async (values: PublisherFormType) => {
+    setIsLoading(true);
+    try {
+      const publisher = await PublishersService.create(values);
+      dispatch(addPublisher(publisher));
+      toast.success(PUBLISHER_CREATE_SUCCESS_MESSAGE);
+      onOpenChange();
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -54,9 +59,7 @@ export const AddPublisher = () => {
         <ModalContent>
           {(onClose) => (
             <Fragment>
-              <ModalHeader className="flex flex-col gap-1">
-                Agregar Editorial
-              </ModalHeader>
+              <ModalHeader>Agregar Editorial</ModalHeader>
               <Formik
                 initialValues={initialValues}
                 validationSchema={createPublisherSchema}
@@ -67,10 +70,10 @@ export const AddPublisher = () => {
                     <ModalBody>
                       {/* Nombre de la editorial */}
                       <Input
-                        label="Agregar"
+                        label="Nombre"
                         variant="bordered"
                         isRequired
-                        value={values.name}
+                        value={values.name.toUpperCase()}
                         onChange={handleChange("name")}
                         isInvalid={!!errors.name && !!touched.name}
                         errorMessage={errors.name}

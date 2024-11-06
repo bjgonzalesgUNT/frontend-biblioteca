@@ -1,7 +1,9 @@
 "use client";
 
 import { TABLE_BODY_EMPTY_MESSAGE } from "@/constants";
-import { BookModel } from "@/models";
+
+import { PublisherModel } from "@/models";
+
 import {
   Pagination,
   Spinner,
@@ -19,14 +21,15 @@ interface Props {
   isLoading: boolean;
   total: number;
   totalPages: number;
-  count: number;
   page: number;
+  count: number;
   setPage: (page: number) => void;
-  books: BookModel[];
+  publishers: PublisherModel[];
 }
 
-export const BooksTableWrapper = (props: Props) => {
-  const { isLoading, total, totalPages, count, page, setPage, books } = props;
+export const PublishersTableWrapper = (props: Props) => {
+  const { isLoading, total, totalPages, page, count, setPage, publishers } =
+    props;
 
   return (
     <Table
@@ -68,16 +71,16 @@ export const BooksTableWrapper = (props: Props) => {
         )}
       </TableHeader>
       <TableBody
-        items={books}
+        items={publishers}
         isLoading={isLoading}
         loadingContent={<Spinner />}
         emptyContent={TABLE_BODY_EMPTY_MESSAGE}
       >
-        {(user) => (
+        {(publisher) => (
           <TableRow>
             {(columnKey: any) => (
               <TableCell>
-                <RenderCell book={user} columnKey={columnKey} />
+                <RenderCell publisher={publisher} columnKey={columnKey} />
               </TableCell>
             )}
           </TableRow>
