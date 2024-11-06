@@ -3,7 +3,7 @@
 import { UrlIcon } from "@/components/icons";
 import { EditIcon } from "@/components/icons/table/edit-icon";
 import { BOOK_UPDATED_SUCCESS_MESSAGE } from "@/constants";
-import { addBook, useBooksDispatch } from "@/context/books";
+import { addBook, editBook, useBooksDispatch } from "@/context/books";
 import { BookFormType } from "@/helpers/form-types/book.form-type";
 import { createBookSchema } from "@/helpers/schemas";
 import {
@@ -115,7 +115,7 @@ export const EditBook = ({ book }: Props) => {
           ...values,
           published_at: parseDate(values.published_at!.toString()),
         });
-        dispatch(addBook(newBook));
+        dispatch(editBook(newBook));
         toast.success(BOOK_UPDATED_SUCCESS_MESSAGE);
         onOpenChange();
       } catch (error: any) {
