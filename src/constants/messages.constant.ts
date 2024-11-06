@@ -25,3 +25,7 @@ export const BOOK_UPDATED_SUCCESS_MESSAGE = "Libro actualizado correctamente";
 // *AUTHORS
 export const AUTHOR_CREATE_SUCCESS_MESSAGE = "Autor creado correctamente";
 export const AUTHOR_UPDATE_SUCCESS_MESSAGE = "Autor actualizado correctamente";
+
+// *PUBLISHERS
+export const PUBLISHER_CREATE_SUCCESS_MESSAGE =
+  "Editorial creado correctamente";
