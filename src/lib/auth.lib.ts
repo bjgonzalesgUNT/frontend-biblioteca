@@ -7,8 +7,6 @@ export const singIn = async (values: LoginFormType): Promise<UserAuthModel> => {
     body: JSON.stringify(values),
   });
 
-  console.log(response.status);
-
   if (!response.ok) throw Error(response.statusText);
 
   return await response.json();

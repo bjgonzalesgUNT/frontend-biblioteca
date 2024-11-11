@@ -103,7 +103,6 @@ export const EditAuthor = ({ author }: Props) => {
                     </p>
                   </ModalHeader>
                   <ModalBody>
-                    {values.image_url}
                     <Input
                       label="Imagen"
                       variant="bordered"
