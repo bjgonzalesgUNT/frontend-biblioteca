@@ -1,28 +1,107 @@
 "use client";
-import Sidebar from "./components/sidebar";
-import { Header } from "./components/Header";
-import { BookCard } from "./components/BookCard";
-import { lastBooks } from "./components/data";
-import { Pagination } from "@nextui-org/react";
+
+import { BookModel } from "@/models";
+import { BooksService } from "@/services";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  BookCardsWrapper,
+  HeaderWrapper,
+  PaginationWrapper,
+  SearchBookWrapper,
+  SidebarWrapper,
+} from "./components";
+import { TSort } from "./types";
+
+const limit = 24;
 
 export const BookWrapper = () => {
+  const [page, setPage] = useState(1);
+  const [books, setBooks] = useState<BookModel[]>([]);
+  const [total, setTotal] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [filter, setFilter] = useState<string>("");
+  const [selectedSummaries2, setSelectedSummaries2] = useState<string[]>([]);
+
+  const [selectedSortOption, setSelectedSortOption] = useState<TSort>("ASC");
+
+  const booksFiltered = useMemo(() => {
+    const sortedBooks =
+      selectedSortOption === "ASC"
+        ? books.sort((a, b) => {
+            if (a.title > b.title) {
+              return 1;
+            } else if (a.title < b.title) {
+              return -1;
+            } else {
+              return 0;
+            }
+          })
+        : books.sort((a, b) => {
+            if (a.title > b.title) {
+              return -1;
+            } else if (a.title < b.title) {
+              return 1;
+            } else {
+              return 0;
+            }
+          });
+
+    const booksFiltered = sortedBooks.filter((book) => {
+      if (selectedSummaries2.length === 0) return true;
+      return selectedSummaries2.includes(book.deway_id.toString());
+    });
+
+    return booksFiltered;
+  }, [books, selectedSortOption, selectedSummaries2]);
+
+  const handleFetch = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const url = filter
+        ? `${BooksService.getByFilterPaginateUrl}/${filter}`
+        : BooksService.getAllPaginateUrl;
+
+      const { rows, total, totalPages, count } =
+        await BooksService.getByFilterPaginatedByUrl({ url, page, limit });
+      setTotal(total);
+      setTotalPages(totalPages);
+      setCount(count);
+      setBooks(rows);
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  }, [page, filter]);
+
+  useEffect(() => {
+    handleFetch();
+  }, [handleFetch]);
+
   return (
-    <div className="flex min-h-screen bg-black text-white">
-      <Sidebar />
-      <main className="flex flex-1 flex-col p-4 px-24">
-        <Header />
-        <div className="mx-auto my-10 grid grid-cols-3 gap-20">
-          {lastBooks.map((book, index) => (
-            <BookCard key={index} book={book} />
-          ))}
-        </div>
-        <Pagination
-          showControls
-          total={3}
-          initialPage={1}
-          className="flex justify-end"
+    <main className="grid gap-x-4 gap-y-4 px-4 pt-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-10 lg:px-16">
+      <SearchBookWrapper setFilter={setFilter} />
+      <SidebarWrapper
+        selectedSummaries2={selectedSummaries2}
+        setSelectedSummaries2={setSelectedSummaries2}
+      />
+      <div className="grid gap-2 md:col-span-2 md:gap-3 lg:col-span-3 lg:gap-4">
+        <HeaderWrapper
+          count={count}
+          page={page}
+          total={total}
+          setSelectedSortOption={setSelectedSortOption}
         />
-      </main>
-    </div>
+        <BookCardsWrapper books={booksFiltered} isLoading={isLoading} />
+        <PaginationWrapper
+          page={page}
+          setPage={setPage}
+          total={total}
+          totalPages={totalPages}
+        />
+      </div>
+    </main>
   );
 };

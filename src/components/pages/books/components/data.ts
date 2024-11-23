@@ -1,4 +1,5 @@
-import { BookModel, AuthorModel, Summary3Model } from "@/models";
+import { AuthorModel, BookModel } from "@/models";
+import { TSort } from "../types";
 
 export const lastBooks: BookModel[] = [
   {
@@ -1008,4 +1009,7 @@ export const categoriasdebusqueda: string[] = [
   "Categoría 7",
 ];
 
-export const filtrado: string[] = ["Ordenar de A-Z", "Ordenar de Z-A"];
+export const filters: { key: TSort; filter: string }[] = [
+  { key: "ASC", filter: "A-Z" },
+  { key: "DESC", filter: "Z-A" },
+];

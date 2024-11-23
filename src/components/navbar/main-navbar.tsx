@@ -1,4 +1,4 @@
-import { Navbar, NavbarContent } from "@nextui-org/react";
+import { Image, Navbar, NavbarContent } from "@nextui-org/react";
 import React from "react";
 import { MainUserDropdown } from "./main-user-dropdown";
 
@@ -8,7 +8,7 @@ interface Props {
 
 export const MainNavbarWrapper = ({ children }: Props) => {
   return (
-    <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+    <div className="relative flex flex-1 select-none flex-col">
       <Navbar
         isBordered
         className="w-full"
@@ -16,7 +16,14 @@ export const MainNavbarWrapper = ({ children }: Props) => {
           wrapper: "w-full max-w-full",
         }}
       >
-        <NavbarContent>logo</NavbarContent>
+        <NavbarContent>
+          <Image src="/imgs/info-logo.png" alt="info-logo" width={40} />
+          <p className="text-2xl font-bold uppercase tracking-tight">
+            {"BIB"}
+            <span className="text-blue-500">{"TEC"}</span>
+            {" - INFORMATICA"}
+          </p>
+        </NavbarContent>
 
         <NavbarContent
           justify="end"
@@ -25,7 +32,7 @@ export const MainNavbarWrapper = ({ children }: Props) => {
           <MainUserDropdown />
         </NavbarContent>
       </Navbar>
-      {children}
+      <div className="pb-8 pt-2">{children}</div>
     </div>
   );
 };

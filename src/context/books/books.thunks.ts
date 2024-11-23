@@ -1,18 +1,13 @@
-import { throwHttpErrorHandler } from "@/handlers";
-import { axiosInstance } from "@/tools";
+import { BooksService } from "@/services";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 interface Props {
-  page: number;
   url: string;
+  page: number;
 }
 
 export const getBooksPaginated = createAsyncThunk(
   "books/getBooksPaginated",
-  async ({ page, url }: Props) => {
-    return await axiosInstance
-      .get(url, { params: { page } })
-      .then((res) => res.data)
-      .catch(throwHttpErrorHandler);
-  },
+  async ({ page, url }: Props) =>
+    BooksService.getByFilterPaginatedByUrl({ page, url }),
 );
