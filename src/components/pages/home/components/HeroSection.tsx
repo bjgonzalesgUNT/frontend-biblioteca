@@ -8,20 +8,20 @@ export const HeroSection = () => {
 
   return (
     <div className="relative h-screen w-full">
-      <div className="absolute inset-0 bg-black/70"></div>
+      <div className="absolute inset-0 bg-[#111322]/90"></div>
       <img
         src="https://images.unsplash.com/photo-1512820790803-83ca734da794?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
         className="h-full w-full object-cover"
         alt="Biblioteca de libros"
       />
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center space-y-6 text-center">
-        <h1 className="text-4xl font-bold text-white md:text-5xl">
+      <div className="absolute inset-0 flex flex-col items-center justify-center space-y-6 px-10 text-center">
+        <h1 className="text-4xl font-bold text-white md:text-6xl">
           Descubre el mundo de los libros
         </h1>
         <p className="max-w-2xl text-lg text-gray-300 md:text-xl">
-          "Sumérgete en historias cautivadoras, expande tus conocimientos y
-          encuentra la inspiración. Explora nuestra colección digital."
+          Sumérgete en historias cautivadoras, expande tus conocimientos y
+          encuentra la inspiración. Explora nuestra colección digital.
         </p>
 
         <div className="mt-8 flex w-full max-w-xl items-center">
