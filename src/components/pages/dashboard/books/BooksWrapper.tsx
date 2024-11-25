@@ -48,8 +48,8 @@ export const BooksWrapper = () => {
       getBooksPaginated({
         page,
         url: searchValue
-          ? `${BooksService.findByFilterPaginateUrl}/${searchValue}`
-          : BooksService.findAllPaginateUrl,
+          ? `${BooksService.getByFilterPaginateUrl}/${searchValue}`
+          : BooksService.getAllPaginateUrl,
       }),
     );
   }, [dispatch, page, searchValue]);
