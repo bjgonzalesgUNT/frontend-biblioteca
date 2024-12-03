@@ -2,7 +2,7 @@ import { getSession } from "@/lib";
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: process.env.NEST_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 1000 * 10,
   headers: {
     ContentType: "application/json",

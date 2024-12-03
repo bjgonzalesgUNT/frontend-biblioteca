@@ -1,7 +1,8 @@
 import { NextPage } from "next";
+import { BookWrapper } from "@/components/pages/books/BookWrapper";
 
 const BooksPage: NextPage = () => {
-  return <div>xd</div>;
+  return <BookWrapper />;
 };
 
 export default BooksPage;
