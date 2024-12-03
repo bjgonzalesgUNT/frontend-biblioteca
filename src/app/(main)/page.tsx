@@ -1,7 +1,8 @@
+import { HomeWrapper } from "@/components/pages/home/HomeWrapper";
 import type { NextPage } from "next";
 
 const Home: NextPage = () => {
-  return <div>Esto seria la pagina principal</div>;
+  return <HomeWrapper />;
 };
 
 export default Home;
