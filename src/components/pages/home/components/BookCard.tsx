@@ -1,5 +1,5 @@
-import { Card, CardFooter, CardBody, Image, Link } from "@nextui-org/react";
 import { BookModel } from "@/models";
+import { Card, CardBody, CardFooter, Image, Link } from "@nextui-org/react";
 
 interface Props {
   book: BookModel;
@@ -13,7 +13,7 @@ export const BookCard = ({
   customWidth = 350,
 }: Props) => {
   return (
-    <Link href={book.path}>
+    <Link href={`/books/${book.id}`}>
       <Card className="bg-gray-200 py-4">
         <CardBody className="overflow-visible py-2">
           <Image

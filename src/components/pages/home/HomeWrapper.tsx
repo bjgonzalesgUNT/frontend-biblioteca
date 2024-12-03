@@ -1,13 +1,14 @@
 "use client";
-import { HeroSection } from "./components/HeroSection";
-import { BookCard } from "./components/BookCard";
-import { AuthorCard } from "./components/AuthorCard";
-import { lastBooks, remarkableBooks, authors } from "./components/data";
-import { Button, Link, Divider, Spinner } from "@nextui-org/react";
 import { BluePurple1 } from "@/components/icons/blue-purple-1";
 import { BluePurple2 } from "@/components/icons/blue-purple-2";
-import { useState, useEffect } from "react";
-import { BookModel } from "@/models";
+import { AuthorModel, BookModel } from "@/models";
+import { Button, Divider, Image, Link, Spinner } from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import { AuthorCard } from "./components/AuthorCard";
+import { BookCard } from "./components/BookCard";
+import { authors, lastBooks, remarkableBooks } from "./components/data";
+import { HeroSection } from "./components/HeroSection";
+import { AuthorsService, BooksService } from "@/services";
 
 const getWindowSize = () => {
   return window.innerWidth;
@@ -137,6 +138,8 @@ const BooksGrid = ({ books, size }: { books: BookModel[]; size: number }) => {
 
 export const HomeWrapper = () => {
   const [windowsSize, setWindowsSize] = useState(-1);
+  const [books, setBooks] = useState<BookModel[]>([]);
+  const [authors, setAuthors] = useState<AuthorModel[]>([]);
 
   useEffect(() => {
     const handleResize = () => setWindowsSize(getWindowSize());
@@ -144,6 +147,21 @@ export const HomeWrapper = () => {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const handleFetch = async () => {
+    try {
+      const [books, authors] = await Promise.all([
+        BooksService.getAllPaginate(1, 5),
+        AuthorsService.getAllPaginated(1, 4),
+      ]);
+      setBooks(books.rows);
+      setAuthors(authors.rows);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    handleFetch();
   }, []);
 
   return (
@@ -165,7 +183,7 @@ export const HomeWrapper = () => {
                 <SeeMoreButton href="/books" />
               </div>
             </div>
-            <BooksGrid books={lastBooks} size={windowsSize} />
+            <BooksGrid books={books} size={windowsSize} />
             <div className="col-span-2 block lg:hidden">
               <SeeMoreButton href="/books" />
             </div>
@@ -186,7 +204,7 @@ export const HomeWrapper = () => {
                 highlight="¡Descubre lo más destacado ahora!"
               />
             </div>
-            <BooksGrid books={remarkableBooks} size={windowsSize} />
+            <BooksGrid books={books} size={windowsSize} />
             <div className="col-span-2 my-auto hidden lg:col-span-1 lg:block">
               <SectionHeader
                 title="MÁS DESTACADOS"
@@ -218,7 +236,6 @@ export const HomeWrapper = () => {
                 contenidos. Descubre sus ideas, inspiraciones y obras más
                 influyentes.
                 <span className="font-bold text-amber-300">
-                  {" "}
                   ¡Explóralos ahora!
                 </span>
               </p>
@@ -233,32 +250,9 @@ export const HomeWrapper = () => {
                 </div>
               ))}
             </div>
-            <SeeMoreButton href="/authors" />
           </div>
         </section>
-
-        <div className="relative mt-20 h-[44vh]">
-          <div className="absolute inset-0 bg-[#111322]/90"></div>
-          <img
-            src="https://www.teknei.com/wp-content/uploads/2020/09/alfons-morales-YLSwjSy7stw-unsplash-e1630306388778.jpg"
-            className="h-full w-full object-cover"
-            alt="Biblioteca de libros"
-          />
-          <div className="absolute inset-0 flex flex-col items-center justify-center space-y-6 px-10 text-center">
-            <h1 className="text-4xl font-bold text-white md:text-5xl">
-              Descubre el mundo de los libros
-            </h1>
-            <p className="max-w-2xl text-lg text-gray-300 md:text-xl">
-              "Sumérgete en historias cautivadoras, expande tus conocimientos y
-              encuentra la inspiración. Explora nuestra colección digital."
-            </p>
-          </div>
-        </div>
       </main>
-
-      <div className="flex h-[60vh] items-end">
-        <span>Footer</span>
-      </div>
     </div>
   );
 };

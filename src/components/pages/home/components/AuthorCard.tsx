@@ -1,5 +1,6 @@
-import { Card, CardFooter, CardBody, Image, Link } from "@nextui-org/react";
+import { Card, CardFooter, CardBody, Image } from "@nextui-org/react";
 import { AuthorModel } from "@/models";
+import Link from "next/link";
 
 interface Props {
   author: AuthorModel;
@@ -7,7 +8,12 @@ interface Props {
 
 export const AuthorCard = ({ author }: Props) => {
   return (
-    <Link href="/link-a-todos-los-libros-del-autor">
+    <Link
+      href={{
+        pathname: "/books",
+        query: { filter: author.alias },
+      }}
+    >
       <Card className="bg-gray-200 py-4">
         <CardBody className="overflow-visible py-2">
           <Image

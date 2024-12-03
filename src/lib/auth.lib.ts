@@ -1,19 +1,24 @@
+"use server";
+
+import { createAuthCookie } from "@/actions";
 import { LoginFormType } from "@/helpers/form-types";
 import { UserAuthModel } from "@/models";
+import { AuthService } from "@/services";
+import { encrypt } from "./session.lib";
 
 export const singIn = async (values: LoginFormType): Promise<UserAuthModel> => {
-  const response = await fetch("/api/auth/login", {
-    method: "POST",
-    body: JSON.stringify(values),
-  });
+  try {
+    const auth = await AuthService.login(values);
 
-  if (!response.ok) throw Error(response.statusText);
+    const token = await encrypt({
+      user: auth.user,
+      token: auth.token,
+    });
 
-  return await response.json();
-};
+    await createAuthCookie(token);
 
-export const singOut = async (): Promise<void> => {
-  await fetch("/api/auth/logout", {
-    method: "DELETE",
-  });
+    return auth;
+  } catch (error: any) {
+    throw Error(error.message);
+  }
 };

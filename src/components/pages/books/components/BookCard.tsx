@@ -7,7 +7,7 @@ interface Props {
 
 export const BookCard = ({ book }: Props) => {
   return (
-    <Link href={book.path} className="flex size-full justify-center">
+    <Link href={`/books/${book.id}`} className="flex size-full justify-center">
       <Card className="h-full py-4">
         <CardBody className="overflow-visible py-0">
           <Image

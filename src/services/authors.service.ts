@@ -26,9 +26,10 @@ export class AuthorsService {
 
   static async getAllPaginated(
     page: number,
+    limit?: number,
   ): Promise<PaginationModel<AuthorModel>> {
     return axiosInstance
-      .get(this.getAllPaginatedUrl, { params: { page } })
+      .get(this.getAllPaginatedUrl, { params: { page, limit } })
       .then((res) => res.data)
       .catch(throwHttpErrorHandler);
   }

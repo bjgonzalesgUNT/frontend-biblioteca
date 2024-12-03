@@ -1,25 +1,23 @@
+import { deleteAuthCookie } from "@/actions";
 import { useSession } from "@/hooks/useSession";
-import { singOut } from "@/lib";
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
   NavbarItem,
-  Skeleton,
   User,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
-import { DarkModeSwitch } from "./darkmodeswitch";
 
 export const MainUserDropdown = () => {
   const router = useRouter();
 
-  const { user } = useSession();
+  const { session } = useSession();
 
   const handleLogout = useCallback(async () => {
-    await singOut();
+    await deleteAuthCookie();
     router.replace("/");
   }, [router]);
 
@@ -28,16 +26,13 @@ export const MainUserDropdown = () => {
       <NavbarItem>
         <DropdownTrigger>
           <User
-            name={user?.username}
-            description={user?.role}
+            name={session?.user?.username}
+            description={session?.user?.role}
             className="cursor-pointer"
           />
         </DropdownTrigger>
       </NavbarItem>
       <DropdownMenu aria-label="Menu de acciones de usuario">
-        <DropdownItem key="profile" href="/dashboard/profile">
-          Perfil
-        </DropdownItem>
         <DropdownItem
           key="logout"
           color="danger"
@@ -46,9 +41,9 @@ export const MainUserDropdown = () => {
         >
           Salir
         </DropdownItem>
-        <DropdownItem key="switch">
+        {/* <DropdownItem key="switch">
           <DarkModeSwitch />
-        </DropdownItem>
+        </DropdownItem> */}
       </DropdownMenu>
     </Dropdown>
   );

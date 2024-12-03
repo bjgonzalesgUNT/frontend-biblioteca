@@ -11,10 +11,17 @@ import {
   SidebarWrapper,
 } from "./components";
 import { TSort } from "./types";
+import { useSearchParams } from "next/navigation";
 
 const limit = 24;
 
 export const BookWrapper = () => {
+  const searchParams = useSearchParams();
+
+  const filterText = searchParams.get("filter") || "";
+
+  const [filter, setFilter] = useState<string>(filterText);
+
   const [page, setPage] = useState(1);
   const [books, setBooks] = useState<BookModel[]>([]);
   const [total, setTotal] = useState<number>(0);
@@ -22,7 +29,6 @@ export const BookWrapper = () => {
   const [totalPages, setTotalPages] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [filter, setFilter] = useState<string>("");
   const [selectedSummaries2, setSelectedSummaries2] = useState<string[]>([]);
 
   const [selectedSortOption, setSelectedSortOption] = useState<TSort>("ASC");

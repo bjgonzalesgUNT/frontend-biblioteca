@@ -1,53 +1,66 @@
+"use client";
+
+import { deleteAuthCookie } from "@/actions";
 import { useSession } from "@/hooks/useSession";
-import { singOut } from "@/lib";
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
   NavbarItem,
-  Skeleton,
   User,
 } from "@nextui-org/react";
+import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
-import { DarkModeSwitch } from "./darkmodeswitch";
 
 export const UserDropdown = () => {
   const router = useRouter();
 
-  const { user } = useSession();
+  const { session, setSession } = useSession();
 
   const handleLogout = useCallback(async () => {
-    await singOut();
+    await deleteAuthCookie();
+    setSession(null);
     router.replace("/");
-  }, [router]);
+  }, [router, setSession]);
 
   return (
     <Dropdown>
       <NavbarItem>
         <DropdownTrigger>
           <User
-            name={user?.username}
-            description={user?.role}
+            name={session?.user?.username}
+            description={session?.user?.role}
             className="cursor-pointer"
           />
         </DropdownTrigger>
       </NavbarItem>
       <DropdownMenu aria-label="Menu de acciones de usuario">
-        <DropdownItem key="profile" href="/dashboard/profile">
+        <DropdownItem
+          key="profile"
+          href={
+            session?.user?.role === "admin" ? "/dashboard/profile" : "/profile"
+          }
+          className={clsx(!session?.user ? "hidden" : "block")}
+        >
           Perfil
         </DropdownItem>
         <DropdownItem
           key="logout"
           color="danger"
-          className="text-danger"
+          className={clsx(!session?.user ? "hidden" : "block text-danger")}
           onPress={handleLogout}
         >
           Salir
         </DropdownItem>
-        <DropdownItem key="switch">
-          <DarkModeSwitch />
+
+        <DropdownItem
+          key="login"
+          href="/login"
+          className={clsx(session?.user ? "hidden" : "block")}
+        >
+          Iniciar sesión
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
