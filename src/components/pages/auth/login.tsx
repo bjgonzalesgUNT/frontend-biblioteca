@@ -1,6 +1,5 @@
 "use client";
 
-import { GoogleIcon } from "@/components/icons";
 import { LoginFormType } from "@/helpers/form-types";
 import { loginSchema } from "@/helpers/schemas";
 import { singIn } from "@/lib";
@@ -16,7 +15,6 @@ import { Formik } from "formik";
 import { useRouter } from "next/navigation";
 import { Fragment, useCallback, useState } from "react";
 import { toast } from "sonner";
-
 export const Login = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -92,13 +90,6 @@ export const Login = () => {
                   onPress={() => handleSubmit()}
                 >
                   Iniciar Sesión
-                </Button>
-                <Button
-                  variant="bordered"
-                  className="font-semibold"
-                  startContent={<GoogleIcon />}
-                >
-                  Entrar con google
                 </Button>
               </div>
             </CardFooter>

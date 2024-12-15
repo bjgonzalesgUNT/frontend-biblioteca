@@ -1,8 +1,6 @@
 "use server";
 
-import { SESSION_KEY } from "@/constants";
 import { jwtVerify, SignJWT } from "jose";
-import { cookies } from "next/headers";
 import { IPayload } from "./interfaces";
 
 const secretKey = process.env.SECRET_JWT;
@@ -25,10 +23,4 @@ export const decrypt = async (session: string): Promise<IPayload | null> => {
   } catch {
     return null;
   }
-};
-
-export const getSession = async (): Promise<IPayload | null> => {
-  const token = cookies().get(SESSION_KEY)?.value || "";
-
-  return await decrypt(token);
 };

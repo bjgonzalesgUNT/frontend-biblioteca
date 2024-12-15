@@ -42,7 +42,11 @@ export const UserDropdown = () => {
           href={
             session?.user?.role === "admin" ? "/dashboard/profile" : "/profile"
           }
-          className={clsx(!session?.user ? "hidden" : "block")}
+          className={clsx(
+            !session?.user || session?.user?.role !== "admin"
+              ? "hidden"
+              : "block",
+          )}
         >
           Perfil
         </DropdownItem>
