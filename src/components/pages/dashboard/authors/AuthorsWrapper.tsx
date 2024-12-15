@@ -68,7 +68,6 @@ export const AuthorsWrapper = () => {
         </div>
         <div className="flex flex-row flex-wrap gap-3.5">
           <AddAuthor />
-          <Button color="secondary">Exportar a CSV</Button>
         </div>
       </div>
       <div className="mx-auto w-full max-w-[95rem]">

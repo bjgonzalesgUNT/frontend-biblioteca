@@ -1,3 +1,4 @@
+import { MainLayoutWrapper } from "@/components/layout/main";
 import "@/styles/globals.css";
 
 export default function RootLayout({
@@ -5,5 +6,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div>{children}</div>;
+  return <MainLayoutWrapper>{children}</MainLayoutWrapper>;
 }

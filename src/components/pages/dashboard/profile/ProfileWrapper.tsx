@@ -24,7 +24,7 @@ import {
 } from "./components";
 
 export const ProfileWrapper = () => {
-  const { user } = useSession();
+  const { session } = useSession();
 
   const dispatch = useDispatch();
 
@@ -57,13 +57,14 @@ export const ProfileWrapper = () => {
           />
           <div className="absolute -bottom-1/2 end-4 start-8 md:start-10">
             <Avatar className="z-10 h-24 w-24 md:h-28 md:w-28" />
-            <Skeleton isLoaded={!!user} className="mt-2 rounded-md">
+            <Skeleton isLoaded={!!session?.user} className="mt-2 rounded-md">
               <div className="flex flex-col gap-2 md:flex-row md:items-center">
                 <h3 className="text-xl font-bold md:text-2xl">
-                  {user?.surnames.split(" ")[0]} {user?.names.split(" ")[0]}
+                  {session?.user?.surnames.split(" ")[0]}{" "}
+                  {session?.user?.names.split(" ")[0]}
                 </h3>
                 <Chip color="success" variant="bordered" size="sm">
-                  <p className="font-medium uppercase">{user?.role}</p>
+                  <p className="font-medium uppercase">{session?.user?.role}</p>
                 </Chip>
               </div>
             </Skeleton>

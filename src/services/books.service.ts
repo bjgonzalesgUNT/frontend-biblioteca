@@ -5,8 +5,8 @@ import { axiosInstance } from "@/tools";
 
 export class BooksService {
   static createUrl = "/books/create";
-  static findAllPaginateUrl = "/books/find-all-paginate";
-  static findByFilterPaginateUrl = "/books/find-by-filter-paginate";
+  static getAllPaginateUrl = "/books/find-all-paginate";
+  static getByFilterPaginateUrl = "/books/find-by-filter-paginate";
   static updateUrl = "/books/update";
   static changeStatusUrl = "/books/change-status";
 
@@ -21,9 +21,25 @@ export class BooksService {
 
   static async getAllPaginate(
     page: number,
+    limit?: number,
   ): Promise<PaginationModel<BookModel>> {
     return axiosInstance
-      .get(this.findAllPaginateUrl, { params: { page } })
+      .get(this.getAllPaginateUrl, { params: { page, limit } })
+      .then((res) => res.data)
+      .catch(throwHttpErrorHandler);
+  }
+
+  static async getByFilterPaginatedByUrl({
+    url,
+    page,
+    limit,
+  }: {
+    url: string;
+    page: number;
+    limit?: number;
+  }) {
+    return axiosInstance
+      .get(url, { params: { page, limit } })
       .then((res) => res.data)
       .catch(throwHttpErrorHandler);
   }

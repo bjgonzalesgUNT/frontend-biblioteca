@@ -16,7 +16,7 @@ export function Providers({ children, themeProps }: ProvidersProps) {
     <SessionAuthProvider>
       <NextUIProvider>
         <NextThemesProvider
-          defaultTheme="system"
+          defaultTheme="dark"
           attribute="class"
           {...themeProps}
         >
