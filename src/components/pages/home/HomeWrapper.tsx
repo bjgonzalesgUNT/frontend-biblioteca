@@ -151,7 +151,7 @@ export const HomeWrapper = () => {
   const handleFetch = async () => {
     try {
       const [books, authors] = await Promise.all([
-        BooksService.getAllPaginate(1, 5),
+        BooksService.getByFilterPublicPaginated({ page: 1, limit: 5 }),
         AuthorsService.getAllPaginated(1, 4),
       ]);
       setBooks(books.rows);

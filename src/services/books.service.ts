@@ -9,6 +9,7 @@ export class BooksService {
   static getByFilterPaginateUrl = "/books/find-by-filter-paginate";
   static updateUrl = "/books/update";
   static changeStatusUrl = "/books/change-status";
+  static getByFilterPublicPaginateUrl = "/books/find-by-filter-public-paginate";
 
   static async create(data: BookFormType): Promise<BookModel> {
     const { summary_1_id, summary_2_id, ...rest } = data;
@@ -25,6 +26,23 @@ export class BooksService {
   ): Promise<PaginationModel<BookModel>> {
     return axiosInstance
       .get(this.getAllPaginateUrl, { params: { page, limit } })
+      .then((res) => res.data)
+      .catch(throwHttpErrorHandler);
+  }
+
+  static async getByFilterPublicPaginated({
+    filter,
+    page,
+    limit,
+  }: {
+    filter?: string;
+    page: number;
+    limit?: number;
+  }) {
+    return axiosInstance
+      .get(this.getByFilterPublicPaginateUrl, {
+        params: { filter, page, limit },
+      })
       .then((res) => res.data)
       .catch(throwHttpErrorHandler);
   }

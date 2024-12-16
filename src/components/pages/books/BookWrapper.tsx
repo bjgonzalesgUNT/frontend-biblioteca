@@ -66,12 +66,12 @@ export const BookWrapper = () => {
   const handleFetch = useCallback(async () => {
     setIsLoading(true);
     try {
-      const url = filter
-        ? `${BooksService.getByFilterPaginateUrl}/${filter}`
-        : BooksService.getAllPaginateUrl;
-
       const { rows, total, totalPages, count } =
-        await BooksService.getByFilterPaginatedByUrl({ url, page, limit });
+        await BooksService.getByFilterPublicPaginated({
+          filter,
+          page,
+          limit,
+        });
       setTotal(total);
       setTotalPages(totalPages);
       setCount(count);
