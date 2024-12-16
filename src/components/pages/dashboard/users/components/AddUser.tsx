@@ -200,6 +200,7 @@ export const AddUser = () => {
                         <Input
                           label="Telefono"
                           variant="bordered"
+                          type="number"
                           value={values.telephone}
                           onChange={handleChange("telephone")}
                           isInvalid={!!errors.telephone && !!touched.telephone}

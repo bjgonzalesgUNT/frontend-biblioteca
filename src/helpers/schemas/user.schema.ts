@@ -12,7 +12,9 @@ export const createUserSchema = object().shape({
     .required("El documento es requerido"),
   gender: string().required("El género es requerido"),
   nacionality: string().required("La nacionalidad es requerida"),
-  telephone: string().optional(),
+  telephone: string()
+    .matches(/^[0-9]+$/, "El numero telefonico solo pueden contener numeros")
+    .optional(),
   address: string().optional(),
   role_id: string().required("El rol es requerido"),
 });
