@@ -2,13 +2,12 @@
 import { BluePurple1 } from "@/components/icons/blue-purple-1";
 import { BluePurple2 } from "@/components/icons/blue-purple-2";
 import { AuthorModel, BookModel } from "@/models";
-import { Button, Divider, Image, Link, Spinner } from "@nextui-org/react";
+import { AuthorsService, BooksService } from "@/services";
+import { Button, Divider, Link, Spinner } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { AuthorCard } from "./components/AuthorCard";
 import { BookCard } from "./components/BookCard";
-import { authors, lastBooks, remarkableBooks } from "./components/data";
 import { HeroSection } from "./components/HeroSection";
-import { AuthorsService, BooksService } from "@/services";
 
 const getWindowSize = () => {
   return window.innerWidth;

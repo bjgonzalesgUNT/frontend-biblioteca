@@ -23,10 +23,13 @@ export const createBookSchema = object().shape({
     .min(10, "La descripción debe tener al menos 10 caracteres")
     .required("La descripción es requerida"),
   pages: string()
-    .matches(/^\d+$/, "El número de páginas debe ser un número")
+    .matches(
+      /^[1-9]+\d*$/,
+      "El número de páginas debe ser un número entero mayor a 0",
+    )
     .required("El número de páginas es requerido"),
   edition: string()
-    .matches(/^\d+$/, "La edición debe ser un número")
+    .matches(/^[1-9]+\d*$/, "La edición debe ser un número entero mayor a 0")
     .required("La edición es requerida"),
   image_url: string()
     .url('La imagen debe ser una URL válida (ejemplo: "http://example.com")')

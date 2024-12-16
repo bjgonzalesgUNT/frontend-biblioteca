@@ -1,12 +1,26 @@
 "use client";
 
 import { HouseIcon } from "@/components/icons/breadcrumb/house-icon";
-import { Input } from "@nextui-org/react";
+import { setUsers } from "@/context/users";
+import { usePagination } from "@/hooks";
+import { UserModel } from "@/models";
+import { UsersService } from "@/services";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 import { UsersTableWrapper } from "./components";
 import { AddUser } from "./components/AddUser";
 
 export const UsersWrapper = () => {
+  const dispatch = useDispatch();
+
+  const { isLoading, total, totalPages, page, setPage } =
+    usePagination<UserModel>({
+      promise: UsersService.getAllPaginate,
+      onSuccess: (data) => dispatch(setUsers(data)),
+      onError: (error) => toast.error(error.message),
+    });
+
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
       <ul className="flex">
@@ -44,7 +58,13 @@ export const UsersWrapper = () => {
         </div>
       </div>
       <div className="mx-auto w-full max-w-[95rem]">
-        <UsersTableWrapper />
+        <UsersTableWrapper
+          isLoading={isLoading}
+          total={total}
+          totalPages={totalPages}
+          page={page}
+          setPage={setPage}
+        />
       </div>
     </div>
   );

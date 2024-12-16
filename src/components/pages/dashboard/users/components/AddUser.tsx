@@ -42,7 +42,7 @@ export const AddUser = () => {
     nacionality: "",
     telephone: "",
     address: "",
-    role_id: 0,
+    role_id: "",
   };
 
   const handleRoles = useCallback(async () => {
@@ -228,16 +228,16 @@ export const AddUser = () => {
                         </Select>
                       </div>
                     </ModalBody>
-                    <ModalFooter>
+                    <ModalFooter className="flex justify-between gap-4">
+                      <Button color="danger" variant="flat" onClick={onClose}>
+                        Cerrar
+                      </Button>
                       <Button
                         color="primary"
                         isLoading={isLoading}
                         onPress={() => handleSubmit()}
                       >
                         Agregar
-                      </Button>
-                      <Button color="danger" variant="flat" onClick={onClose}>
-                        Cerrar
                       </Button>
                     </ModalFooter>
                   </Fragment>

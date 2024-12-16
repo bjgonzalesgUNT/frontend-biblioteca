@@ -5,10 +5,11 @@ interface Props {
     signal: AbortSignal;
     value: string;
   }) => Promise<void> | void;
+  initValue?: string;
 }
 
-export const useDebounced = ({ load }: Props) => {
-  const [value, setValue] = useState<string>("");
+export const useDebounced = ({ load, initValue }: Props) => {
+  const [value, setValue] = useState<string>(initValue || "");
 
   const [debouncedValue, setDebouncedValue] = useState<string>("");
   const prevDebouncedValueRef = useRef<string>("");

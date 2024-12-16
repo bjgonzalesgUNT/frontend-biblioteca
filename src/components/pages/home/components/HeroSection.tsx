@@ -1,10 +1,17 @@
-import { SearchIcon } from "@/components/icons";
 import { Image, Input } from "@nextui-org/react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const HeroSection = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
+
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      router.push("/books?filter=" + searchTerm);
+    }
+  };
 
   return (
     <div className="relative h-screen w-full">
@@ -53,18 +60,9 @@ export const HeroSection = () => {
               ],
             }}
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onValueChange={setSearchTerm}
+            onKeyUp={handleKeyUp}
             placeholder="Busca libros por título o autor"
-            endContent={
-              <Link
-                href={{
-                  pathname: "/books",
-                  query: { filter: searchTerm },
-                }}
-              >
-                <SearchIcon />
-              </Link>
-            }
           />
         </div>
       </div>

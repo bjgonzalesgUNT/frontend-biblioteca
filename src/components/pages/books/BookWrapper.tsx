@@ -2,6 +2,7 @@
 
 import { BookModel } from "@/models";
 import { BooksService } from "@/services";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   BookCardsWrapper,
@@ -11,7 +12,6 @@ import {
   SidebarWrapper,
 } from "./components";
 import { TSort } from "./types";
-import { useSearchParams } from "next/navigation";
 
 const limit = 24;
 
@@ -88,7 +88,7 @@ export const BookWrapper = () => {
 
   return (
     <main className="grid gap-x-4 gap-y-4 px-4 pt-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-10 lg:px-16">
-      <SearchBookWrapper setFilter={setFilter} />
+      <SearchBookWrapper setFilter={setFilter} filter={filterText} />
       <SidebarWrapper
         selectedSummaries2={selectedSummaries2}
         setSelectedSummaries2={setSelectedSummaries2}

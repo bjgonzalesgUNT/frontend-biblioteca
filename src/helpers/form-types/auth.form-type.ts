@@ -9,7 +9,7 @@ export interface SignUpFormType {
   username: string;
   password: string;
   person_id: number;
-  role_id: number;
+  role_id: string;
 }
 export interface ChangePasswordFormType {
   current_password: string;

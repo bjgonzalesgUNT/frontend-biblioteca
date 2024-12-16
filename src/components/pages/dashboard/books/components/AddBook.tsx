@@ -319,6 +319,7 @@ export const AddBook = () => {
                         <Input
                           label="Paginas"
                           variant="bordered"
+                          type="number"
                           isRequired
                           value={values.pages}
                           onChange={handleChange("pages")}
@@ -331,6 +332,7 @@ export const AddBook = () => {
                           label="Edicion"
                           variant="bordered"
                           isRequired
+                          type="number"
                           value={values.edition}
                           onChange={handleChange("edition")}
                           isInvalid={!!errors.edition && !!touched.edition}

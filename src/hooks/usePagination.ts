@@ -1,12 +1,13 @@
 import { PaginationModel } from "@/models";
 import { useCallback, useEffect, useState } from "react";
-import { toast } from "sonner";
 
 interface Props<T> {
   promise: (page: number, limit?: number) => Promise<PaginationModel<T>>;
+  onSuccess?: (data: T[]) => void;
+  onError?: (error: any) => void;
 }
 
-export const usePagination = <T>({ promise }: Props<T>) => {
+export const usePagination = <T>({ promise, onSuccess, onError }: Props<T>) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -21,11 +22,17 @@ export const usePagination = <T>({ promise }: Props<T>) => {
       setTotal(total);
       setTotalPages(totalPages);
       setData(rows);
+      if (onSuccess) {
+        onSuccess(rows);
+      }
     } catch (error: any) {
-      toast.error(error.message);
+      if (onError) {
+        onError(error);
+      }
     } finally {
       setIsLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [promise, page]);
 
   useEffect(() => {

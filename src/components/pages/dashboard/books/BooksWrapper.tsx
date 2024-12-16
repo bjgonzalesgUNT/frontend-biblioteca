@@ -6,12 +6,7 @@ import {
   useBooksSelector,
 } from "@/context/books";
 import { BooksService } from "@/services";
-import {
-  BreadcrumbItem,
-  Breadcrumbs,
-  Button,
-  Skeleton,
-} from "@nextui-org/react";
+import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";

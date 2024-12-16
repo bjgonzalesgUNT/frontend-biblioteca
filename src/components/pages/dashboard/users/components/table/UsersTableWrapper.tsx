@@ -1,10 +1,7 @@
 "use client";
 
 import { TABLE_BODY_EMPTY_MESSAGE } from "@/constants";
-import { setUsers } from "@/context/users";
-import { usePagination } from "@/hooks";
-import { UserModel } from "@/models";
-import { UsersService } from "@/services";
+import { IUsersStore } from "@/context/users";
 import {
   Pagination,
   Spinner,
@@ -15,26 +12,22 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { columns } from "./data";
 import { RenderCell } from "./RenderCell";
 
-export const UsersTableWrapper = () => {
-  const dispatch = useDispatch();
+interface Props {
+  isLoading: boolean;
+  total: number;
+  totalPages: number;
+  page: number;
+  setPage: any;
+}
 
-  const {
-    isLoading,
-    total,
-    totalPages,
-    page,
-    setPage,
-    data: users,
-  } = usePagination<UserModel>({ promise: UsersService.getAllPaginate });
+export const UsersTableWrapper = (props: Props) => {
+  const { isLoading, total, totalPages, page, setPage } = props;
 
-  useEffect(() => {
-    dispatch(setUsers(users));
-  }, [users, dispatch]);
+  const users = useSelector((state: IUsersStore) => state.users);
 
   return (
     <Table
