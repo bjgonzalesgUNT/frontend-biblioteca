@@ -320,6 +320,7 @@ export const AddBook = () => {
                           label="Paginas"
                           variant="bordered"
                           type="number"
+                          min={1}
                           isRequired
                           value={values.pages}
                           onChange={handleChange("pages")}
@@ -333,6 +334,7 @@ export const AddBook = () => {
                           variant="bordered"
                           isRequired
                           type="number"
+                          min={1}
                           value={values.edition}
                           onChange={handleChange("edition")}
                           isInvalid={!!errors.edition && !!touched.edition}
